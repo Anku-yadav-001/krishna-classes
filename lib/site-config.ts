@@ -55,7 +55,7 @@ export const siteConfig = {
       code: "DIWALI20",
       validFrom: "2024-10-15",
       validUntil: "2024-11-15",
-      active: true, // Set to false to disable this offer
+      active: false, // Set to false to disable this offer
       appliesTo: ["all"], // Can be ["jee", "neet", "foundation"] or ["all"]
     },
     {
@@ -67,7 +67,7 @@ export const siteConfig = {
       code: "NEWYEAR15",
       validFrom: "2024-12-25",
       validUntil: "2025-01-15",
-      active: true,
+      active: false,
       appliesTo: ["all"],
     },
     {
@@ -79,7 +79,7 @@ export const siteConfig = {
       code: "SUMMER25",
       validFrom: "2025-03-01",
       validUntil: "2025-04-30",
-      active: true,
+      active: false,
       appliesTo: ["jee", "neet"],
     },
   ],

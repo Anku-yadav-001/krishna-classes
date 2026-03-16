@@ -11,10 +11,10 @@ import {
 import { siteConfig } from "@/lib/site-config"
 
 const stats = [
-  { icon: Users,    value: "5000+", label: "Students Enrolled" },
-  { icon: Award,    value: "95%",   label: "Success Rate" },
-  { icon: BookOpen, value: "15+",   label: "Years Experience" },
-  { icon: Trophy,   value: "500+",  label: "Top Rankers" },
+  { icon: Users, value: "5000+", label: "Students Enrolled" },
+  { icon: Award, value: "95%", label: "Success Rate" },
+  { icon: BookOpen, value: "15+", label: "Years Experience" },
+  { icon: Trophy, value: "500+", label: "Top Rankers" },
 ]
 
 const courses = [
@@ -65,7 +65,6 @@ function NewBatchBanner() {
   const [visible, setVisible] = useState(true)
   const [pulse, setPulse] = useState(false)
 
-  // Pulse dot every 2s
   useEffect(() => {
     const interval = setInterval(() => setPulse(p => !p), 1000)
     return () => clearInterval(interval)
@@ -74,22 +73,21 @@ function NewBatchBanner() {
   if (!visible) return null
 
   return (
-    <div className="relative overflow-hidden bg-secondary/10 border border-secondary/30 rounded-xl px-4 py-3 mb-6 flex items-center justify-between gap-3">
+    <div className="relative overflow-hidden bg-secondary/10 border border-secondary/30 rounded-xl px-3 py-2.5 mb-6 flex items-center justify-between gap-2">
       {/* Animated shimmer sweep */}
       <div className="absolute inset-0 -translate-x-full animate-[shimmer_2.5s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
 
-      <div className="flex items-center gap-3 min-w-0">
-        {/* Live pulse dot */}
+      <div className="flex items-center gap-2 min-w-0">
         <span className="relative flex h-3 w-3 shrink-0">
-          <span className={`animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75`} />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75" />
           <span className="relative inline-flex rounded-full h-3 w-3 bg-secondary" />
         </span>
 
         <Sparkles className="h-4 w-4 text-secondary shrink-0" />
 
-        <p className="text-white text-sm font-semibold truncate">
-          🎓 New Batches Starting —{" "}
-          <span className="text-secondary">Limited Seats Available!</span>
+        <p className="text-white text-xs sm:text-sm font-semibold truncate">
+          🎓 New Batches —{" "}
+          <span className="text-secondary">Limited Seats!</span>
           <span className="hidden sm:inline text-white/70 font-normal">
             {" "}· Mon–Sat · All Courses
           </span>
@@ -101,7 +99,7 @@ function NewBatchBanner() {
           href="#contact"
           className="text-xs font-bold text-secondary hover:text-secondary/80 underline underline-offset-2 transition-colors whitespace-nowrap"
         >
-          Book Seat →
+          Book →
         </Link>
         <button
           onClick={() => setVisible(false)}
@@ -127,14 +125,19 @@ export function HeroSection() {
   const activeOffer = siteConfig.offers?.find((offer: any) => offer.active)
 
   return (
+    // KEY FIX: overflow-x-hidden on the section prevents blobs from causing horizontal scroll
     <section id="home" className="relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/95 to-primary/90" />
 
-      {/* Decorative blobs */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+      {/* Decorative blobs — constrained so they don't cause overflow on mobile */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
+        {/* 
+          FIX: Changed from translate-x-1/2 / -translate-x-1/2 to inset positioning
+          so blobs stay within the section bounds and don't push the scroll width 
+        */}
+        <div className="absolute -top-24 -left-24 w-72 h-72 bg-white rounded-full blur-3xl" />
+        <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-secondary rounded-full blur-3xl" />
         <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-secondary/50 rounded-full blur-2xl -translate-x-1/2 -translate-y-1/2" />
       </div>
 
@@ -147,27 +150,29 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-4 py-16 md:py-24 lg:py-28">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      {/* 
+        KEY FIX: w-full instead of max-w-7xl mx-auto, 
+        and px-4 on mobile (was also fine before but combined with overflow issue caused clipping)
+      */}
+      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20 lg:py-28">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
 
           {/* ── Left: Content ── */}
           <div className="text-center lg:text-left">
 
-            {/* New batch banner */}
             <NewBatchBanner />
 
             {/* Offer badge */}
             {activeOffer && (
-              <Badge className="mb-5 bg-secondary text-secondary-foreground hover:bg-secondary/90 px-4 py-2">
+              <Badge className="mb-5 bg-secondary text-secondary-foreground hover:bg-secondary/90 px-3 py-1.5 text-xs sm:text-sm sm:px-4 sm:py-2">
                 {activeOffer.badge}: {activeOffer.discount} — Use code: {activeOffer.code}
               </Badge>
             )}
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight text-balance">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight">
               Unlock Your{" "}
               <span className="relative inline-block">
                 <span className="text-secondary">Academic</span>
-                {/* Underline accent */}
                 <svg
                   className="absolute -bottom-1 left-0 w-full"
                   viewBox="0 0 200 8"
@@ -187,14 +192,14 @@ export function HeroSection() {
               Potential
             </h1>
 
-            <p className="mt-6 text-lg md:text-xl text-white/80 max-w-xl mx-auto lg:mx-0 leading-relaxed text-pretty">
+            <p className="mt-5 text-base sm:text-lg md:text-xl text-white/80 max-w-xl mx-auto lg:mx-0 leading-relaxed">
               Join Krishna Classes — where excellence meets education. Expert faculty, proven results, and flexible batches for every student.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="mt-7 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
               <Button
                 asChild size="lg"
-                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground text-base px-8 shadow-lg shadow-secondary/25"
+                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground text-sm sm:text-base px-6 sm:px-8 shadow-lg shadow-secondary/25 w-full sm:w-auto"
               >
                 <Link href="#courses">
                   Explore Courses
@@ -203,7 +208,7 @@ export function HeroSection() {
               </Button>
               <Button
                 asChild size="lg" variant="outline"
-                className="border-white/30 text-white bg-white/10 hover:bg-white/20 text-base px-8"
+                className="border-white/30 text-white bg-white/10 hover:bg-white/20 text-sm sm:text-base px-6 sm:px-8 w-full sm:w-auto"
               >
                 <Link href="#gallery">
                   <Play className="mr-2 h-5 w-5" />
@@ -212,30 +217,26 @@ export function HeroSection() {
               </Button>
             </div>
 
-            {/* Stats */}
-            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
+            {/* Stats — 2 cols on mobile, 4 on md+ */}
+            <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
               {stats.map((stat) => (
                 <div key={stat.label} className="text-center lg:text-left">
-                  <div className="flex items-center justify-center lg:justify-start gap-2 mb-1">
-                    <stat.icon className="h-5 w-5 text-secondary" />
-                    <span className="text-2xl md:text-3xl font-bold text-white">{stat.value}</span>
+                  <div className="flex items-center justify-center lg:justify-start gap-1.5 mb-1">
+                    <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 text-secondary shrink-0" />
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{stat.value}</span>
                   </div>
-                  <span className="text-sm text-white/70">{stat.label}</span>
+                  <span className="text-xs sm:text-sm text-white/70">{stat.label}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* ── Right: Course cards ── */}
+          {/* ── Right: Course cards — hidden on mobile, shown on lg ── */}
           <div className="relative hidden lg:block">
-
-            {/* Glow effects */}
             <div className="absolute -top-8 -right-8 w-72 h-72 bg-secondary/20 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-8 -left-8 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
 
             <div className="relative z-10 bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-
-              {/* "New Batch" ribbon on the card panel */}
               <div className="flex items-center gap-2 mb-5 px-1">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75" />
@@ -247,7 +248,7 @@ export function HeroSection() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                {courses.map((course, i) => (
+                {courses.map((course) => (
                   <div
                     key={course.title + course.subtitle}
                     className={`bg-white rounded-xl p-5 shadow-lg hover:shadow-xl transition-shadow duration-300 ${course.offset ? "mt-6" : ""}`}
@@ -265,7 +266,6 @@ export function HeroSection() {
                 ))}
               </div>
 
-              {/* Home tuition pill at bottom */}
               <div className="mt-4 flex items-center justify-between bg-white/15 rounded-xl px-4 py-3 border border-white/20">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
