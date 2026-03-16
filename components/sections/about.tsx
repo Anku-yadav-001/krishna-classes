@@ -29,85 +29,87 @@ const values = [
   },
 ]
 
+const stats = [
+  { value: "15+", label: "Years of Excellence", color: "text-primary" },
+  { value: "1000+", label: "Students Taught", color: "text-secondary" },
+  { value: "95%", label: "Board Result Rate", color: "text-primary" },
+  { value: "5★", label: "Parent Rating", color: "text-secondary" },
+]
+
 export function AboutSection() {
   return (
-    <section id="about" className="py-16 md:py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-4">
+    <section id="about" className="py-14 md:py-24 bg-background overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
           <span className="text-secondary font-semibold text-sm uppercase tracking-wider">About Us</span>
-          <h2 className="mt-2 text-3xl md:text-4xl font-bold text-foreground text-balance">
+          <h2 className="mt-2 text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">
             Building Futures Through Quality Education
           </h2>
-          <p className="mt-4 text-muted-foreground text-lg text-pretty">
+          <p className="mt-4 text-muted-foreground text-base sm:text-lg">
             Since 2009, Krishna Classes has been a trusted name in Kolar, Bhopal — helping thousands of students build strong academic foundations.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        {/* Main two-col grid */}
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
 
-          {/* Content */}
+          {/* Left: Content */}
           <div>
             <div className="space-y-4">
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
                 Krishna Classes was founded with a simple but powerful vision — to make quality coaching accessible to every student in the neighbourhood. Starting with a small batch in 2009, we have grown into one of the most trusted institutes in Kolar, Bhopal, serving students from Class 6 to Class 12 across all major subjects.
               </p>
-              <p className="text-muted-foreground leading-relaxed">
-                We offer structured coaching for IIT-JEE and NEET aspirants, a comprehensive foundation programme for Class 6–10, and a dedicated home tuition service that fits every family's schedule. Our focus has always been on genuine understanding — not just exam results — and on maintaining a close relationship with parents throughout the learning journey.
+              <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
+                We offer structured coaching for IIT-JEE and NEET aspirants, a comprehensive foundation programme for Class 6–10, and a dedicated home tuition service that fits every family's schedule.
               </p>
             </div>
 
-            {/* Features */}
-            <div className="mt-8 grid sm:grid-cols-2 gap-4">
+            {/* Features — 1 col on mobile, 2 on sm+ */}
+            <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 gap-3">
               {features.map((feature) => (
                 <div key={feature} className="flex items-start gap-3">
-                  <CheckCircle className="h-5 w-5 text-secondary flex-shrink-0 mt-0.5" />
+                  <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-secondary flex-shrink-0 mt-0.5" />
                   <span className="text-foreground text-sm">{feature}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Stats */}
+          {/* Right: Stats */}
+          {/* overflow-hidden on wrapper so the blur doesn't escape */}
           <div className="relative">
-            <div className="bg-muted rounded-2xl p-8 md:p-12">
-              <div className="grid grid-cols-2 gap-6">
-                <div className="bg-card rounded-xl p-6 shadow-sm border">
-                  <div className="text-4xl font-bold text-primary">15+</div>
-                  <div className="text-muted-foreground text-sm mt-1">Years of Excellence</div>
-                </div>
-                <div className="bg-card rounded-xl p-6 shadow-sm border">
-                  <div className="text-4xl font-bold text-secondary">5000+</div>
-                  <div className="text-muted-foreground text-sm mt-1">Students Taught</div>
-                </div>
-                <div className="bg-card rounded-xl p-6 shadow-sm border">
-                  <div className="text-4xl font-bold text-primary">95%</div>
-                  <div className="text-muted-foreground text-sm mt-1">Board Result Rate</div>
-                </div>
-                <div className="bg-card rounded-xl p-6 shadow-sm border">
-                  <div className="text-4xl font-bold text-secondary">5★</div>
-                  <div className="text-muted-foreground text-sm mt-1">Parent Rating</div>
-                </div>
+            <div className="bg-muted rounded-2xl p-5 sm:p-8 md:p-10">
+              <div className="grid grid-cols-2 gap-3 sm:gap-5">
+                {stats.map((stat) => (
+                  <div key={stat.label} className="bg-card rounded-xl p-4 sm:p-6 shadow-sm border">
+                    {/* Fluid font size so "1000+" never overflows on small screens */}
+                    <div className={`text-2xl sm:text-3xl md:text-4xl font-bold ${stat.color} leading-tight`}>
+                      {stat.value}
+                    </div>
+                    <div className="text-muted-foreground text-xs sm:text-sm mt-1">{stat.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
-            {/* Decorative blur */}
-            <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none" />
+            {/* Decorative blur — kept inside overflow-hidden parent */}
+            <div className="absolute -bottom-4 -right-4 w-28 h-28 bg-primary/10 rounded-full blur-2xl pointer-events-none" />
           </div>
 
         </div>
 
-        {/* Mission, Vision, Values */}
-        <div className="mt-16 grid md:grid-cols-3 gap-8">
+        {/* Mission, Vision, Values — 1 col mobile, 3 col md+ */}
+        <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 md:gap-8">
           {values.map((value) => (
             <div
               key={value.title}
-              className="bg-card rounded-xl p-6 border shadow-sm hover:shadow-md transition-shadow"
+              className="bg-card rounded-xl p-5 sm:p-6 border shadow-sm hover:shadow-md transition-shadow"
             >
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                <value.icon className="h-6 w-6 text-primary" />
+              <div className="w-11 h-11 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                <value.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">{value.title}</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-foreground mb-2">{value.title}</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">{value.description}</p>
             </div>
           ))}

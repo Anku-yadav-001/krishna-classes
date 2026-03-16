@@ -45,7 +45,7 @@ const faqs = [
   },
   {
     question: "Do you offer scholarship or fee concession?",
-    answer: "Yes, we offer scholarships based on performance in our scholarship test conducted every Year. Meritorious students can get up to 100% fee waiver. We also have special concessions for economically weaker students."
+    answer: "Yes, we offer scholarships based on performance in our scholarship test conducted every year. Meritorious students can get up to 100% fee waiver. We also have special concessions for economically weaker students."
   },
   {
     question: "What are the timings of the coaching center?",
@@ -55,27 +55,32 @@ const faqs = [
 
 export function FAQSection() {
   return (
-    <section id="faq" className="py-16 md:py-24 bg-background">
-      <div className="max-w-4xl mx-auto px-4">
+    <section id="faq" className="py-14 md:py-24 bg-background overflow-hidden">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-8 md:mb-12">
           <span className="text-secondary font-semibold text-sm uppercase tracking-wider">FAQs</span>
-          <h2 className="mt-2 text-3xl md:text-4xl font-bold text-foreground text-balance">
+          <h2 className="mt-2 text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">
             Frequently Asked Questions
           </h2>
-          <p className="mt-4 text-muted-foreground text-lg text-pretty">
+          <p className="mt-3 text-muted-foreground text-base sm:text-lg">
             Find answers to common questions about our courses, admission process, and facilities.
           </p>
         </div>
 
         {/* FAQ Accordion */}
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion type="single" collapsible className="w-full space-y-2">
           {faqs.map((faq, index) => (
-            <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger className="text-left text-foreground hover:text-primary">
+            <AccordionItem
+              key={index}
+              value={`item-${index}`}
+              className="border rounded-xl px-4 sm:px-5 data-[state=open]:border-primary/30 transition-colors"
+            >
+              <AccordionTrigger className="text-left text-sm sm:text-base text-foreground hover:text-primary py-4 hover:no-underline">
                 {faq.question}
               </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground leading-relaxed">
+              <AccordionContent className="text-xs sm:text-sm text-muted-foreground leading-relaxed pb-4">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>
@@ -83,16 +88,19 @@ export function FAQSection() {
         </Accordion>
 
         {/* Still have questions */}
-        <div className="mt-12 text-center bg-muted rounded-xl p-8">
-          <MessageCircle className="h-10 w-10 text-primary mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-foreground mb-2">Still have questions?</h3>
-          <p className="text-muted-foreground mb-4">
+        <div className="mt-10 md:mt-12 text-center bg-muted rounded-xl p-6 sm:p-8">
+          <MessageCircle className="h-8 w-8 sm:h-10 sm:w-10 text-primary mx-auto mb-3 sm:mb-4" />
+          <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2">
+            Still have questions?
+          </h3>
+          <p className="text-sm sm:text-base text-muted-foreground mb-4">
             {"Can't find the answer you're looking for? Our team is happy to help."}
           </p>
-          <Button asChild>
+          <Button asChild className="w-full sm:w-auto">
             <Link href="#contact">Contact Us</Link>
           </Button>
         </div>
+
       </div>
     </section>
   )

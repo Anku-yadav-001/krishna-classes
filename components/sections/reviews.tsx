@@ -9,50 +9,49 @@ const GOOGLE_REVIEWS_URL =
 const PER_PAGE = 9
 
 const reviews = [
-  { name: "Nilufar Khan", avatar: "NK", rating: 5, date: "a month ago", text: "Sir you are an accomplished and valuable teacher who makes complex problems easy to understand. His teaching style is interactive, and he explains concepts with clarity and practical examples. His dedication and support to his students inspires." },
-  { name: "Raj ku Bind", avatar: "RB", rating: 5, date: "a month ago", text: "My son struggled with Maths in 10th grade, and we decided to enroll him at Krishna Classes. The tutors were patient and explained concepts clearly. Within a few months, his grades improved significantly and he gained confidence." },
-  { name: "Clinton Patel", avatar: "CP", rating: 5, date: "a month ago", text: "I had an exceptional learning experience with Krishna Sir. His teaching style is clear, engaging, and student-centered. He explains concepts with crystal clear steps, making it easy to grasp and apply them in practice." },
-  { name: "Shambhavi Yadav", avatar: "SY", rating: 5, date: "a month ago", text: "Highly Experienced Faculty. The coaching institute has well qualified and experienced teachers who explain concepts in a very simple and effective manner." },
-  { name: "Lanju Jhumu", avatar: "LJ", rating: 5, date: "a month ago", text: "Krishna home classes provided a fantastic tutor for my daughter's Science subjects. The tutor was punctual, professional, and had a great understanding of the curriculum. The personalized attention made a huge difference in her learning." },
-  { name: "Raj arko", avatar: "RA", rating: 5, date: "a month ago", text: "An excellent coaching with good and peaceful environment. Management is very cooperative and very humble. Good correlation between teachers and students. Every teacher has their own teaching style and qualification in respective subjects." },
-  { name: "Anush Khan", avatar: "AK", rating: 5, date: "a month ago", text: "Excellent teaching and very supportive tuition. Highly recommended." },
-  { name: "RuhanRajhi", avatar: "RR", rating: 5, date: "a month ago", text: "Best classes for girls with safe environment and experienced faculty." },
-  { name: "VidhuGautam", avatar: "VG", rating: 5, date: "a month ago", text: "A dedicated math teacher who explains every concept clearly and makes tough topics easy." },
-  { name: "Shashi Patel", avatar: "SP", rating: 5, date: "2 months ago", text: "I enrolled my child in Krishna Classes 4 years ago. I've been happy for 4 years for my 9th and 10th grade child. Over the past 4 years my experience has been tremendous. Krishna sir is very passionate about teaching." },
-  { name: "Rashoop Nikita", avatar: "RN", rating: 5, date: "2 months ago", text: "Krishna Classes and Home Tutors in Bhopal have been excellent for my Class 12 preparation. The teachers are knowledgeable, supportive, and provide personalised attention to each student. Highly recommended." },
-  { name: "Bhanu Charasid", avatar: "BC", rating: 5, date: "2 months ago", text: "I really appreciated the quality of my education at Krishna Classes Bhopal. I learned PCM perfectly in class 12 with ease. I would spread thanks to Krishna sir for guidance." },
-  { name: "Maili France", avatar: "MF", rating: 5, date: "2 months ago", text: "Very amazing. I love the personality and their knowledge about the topic. This way of teaching is very productive 😊" },
-  { name: "Rogar Ful", avatar: "RF", rating: 5, date: "2 months ago", text: "According to my son, he is brilliant. I have never seen such a teacher by good mentor, good person and also an old teacher. I cannot explain — he is just a good asset." },
-  { name: "Hamid Clancy", avatar: "HC", rating: 5, date: "2 months ago", text: "Talent understanding of the subject is essential, but the ability to translate that knowledge into effective teaching is what truly makes a great teacher." },
-  { name: "Nisha Chandal", avatar: "NC", rating: 5, date: "2 months ago", text: "Good for Juniors — very informative and a great person for any guidance. Sir is the right guy for everything." },
-  { name: "Anjali Dabeeral", avatar: "AD", rating: 5, date: "2 months ago", text: "Best coaching center in Bhopal. Teachers are very experienced and friendly. I cleared JEE and I am grateful. 10/10 would recommend — spread thanks to Krishna sir for guidance." },
-  { name: "Rashida Kayinga", avatar: "RK", rating: 5, date: "2 months ago", text: "It is one of the best home tutor providers at Bhopal. Specially for those who can't afford big coaching classes." },
-  { name: "Arpit Pandey", avatar: "AP", rating: 4, date: "2 months ago", text: "It's a good coaching place. I am studying here from 3 years and I am quite satisfied with the education." },
-  { name: "Anudeep Agrawal", avatar: "AA", rating: 5, date: "2 months ago", text: "They are the teachers who understand your learning style and goals." },
-  { name: "Adda a Singh", avatar: "AS", rating: 5, date: "2 months ago", text: "Best coaching institute. I am fully satisfied with their commitment towards students." },
-  { name: "Keshla Yomas", avatar: "KY", rating: 5, date: "2 months ago", text: "Appreciate your efforts in providing individual attention and support to struggling students." },
-  { name: "Chandrav Kumar", avatar: "CK", rating: 5, date: "2 months ago", text: "Good for Junior kids — thorough knowledge of the subjects they teach." },
-  { name: "Bhaushan Yadav", avatar: "BY", rating: 5, date: "3 months ago", text: "The teacher demonstrates excellent subject knowledge. Their coaching and support helps students understand even difficult topics with ease. Overall, a dedicated and inspiring educator." },
-  { name: "Maili Reld", avatar: "MR", rating: 5, date: "3 months ago", text: "I had an amazing learning experience with Krishna Sir. His teaching methods are easy to understand. He explains even the toughest concepts in a very simple and clear way, making learning extremely smooth." },
-  { name: "ABU SUPTA", avatar: "AS", rating: 5, date: "3 months ago", text: "Good academic and professional institute for girls. The teachers are very supportive and provide personal care to students to reach their goals." },
-  { name: "Dur", avatar: "DU", rating: 5, date: "3 months ago", text: "Determined man. The kind of knowledge which is providing in this coaching is fabulous. Nature is very cooperative and friendly." },
-  { name: "Rohani Dileep", avatar: "RD", rating: 5, date: "a month ago", text: "Thank you for all your guidance and your teaching staff is excellent." },
-  { name: "Rajul Choubey", avatar: "RC", rating: 5, date: "2 months ago", text: "Very enjoyable experience. Their way of teaching and using techniques helped me a lot in understanding my studies." },
-  { name: "Shibi Rehman", avatar: "SR", rating: 4, date: "2 months ago", text: "This was the first coaching I have ever attended. I am fully satisfied and I recommend everyone to attend here. It is the best coaching and I am still attending." },
-  { name: "Khushboo Kanwar", avatar: "KK", rating: 4, date: "a month ago", text: "Sir, you are good at teaching for students. Your explanation is knowledgeable and thank you." },
-  { name: "Rhoah jupujal", avatar: "RJ", rating: 5, date: "2 months ago", text: "He is a great person overall. His teaching is challenging but worth doing my assignments and achieving my goals." },
-  { name: "Nidhi Shukla", avatar: "NS", rating: 5, date: "2 months ago", text: "The coaching is very helpful for me — it provides the best student care and interest." },
-  { name: "Sunil Paratkar", avatar: "SP", rating: 5, date: "2 months ago", text: "Teaching way and Sir is very supportive. Sir has a lot of knowledge to explain." },
-  { name: "Abhijay Kautkale", avatar: "AK", rating: 4, date: "2 months ago", text: "Krishna sir is a good teacher in NEET mentorship." },
-  { name: "Rucif Chaney", avatar: "RC", rating: 5, date: "a month ago", text: "An excellent PCM teacher who explains concepts clearly and builds strong fundamentals." },
+  // Image 1
+  { name: "Khushbu Yadav", avatar: "KY", rating: 5, date: "3 months ago", text: "I joined this aptitude class and my experience has been really good. The teacher explains every concept in a very simple and clear way. Even difficult topics feel easy because they start from the basics and then gradually move to advanced questions." },
+  { name: "Aditi Mehto", avatar: "AM", rating: 5, date: "2 months ago", text: "The teacher is highly knowledgeable and explains concepts very clearly. Their teaching style is engaging, and they ensure that every student understands the topic. I really appreciate their dedication and supportive nature." },
+  { name: "Sangam Yadav", avatar: "SY", rating: 5, date: "2 months ago", text: "The best PCM coaching teacher I have ever learned from clear explanations, strong concepts, and excellent support. Their teaching made even tough topics easy to understand. Highly recommended." },
+  { name: "Bhumi Choudhary", avatar: "BC", rating: 5, date: "3 months ago", text: "The teacher demonstrates excellent subject knowledge and delivers lessons in a clear, structured manner. Their supportive approach helps students understand even difficult topics with ease. Overall, a dedicated and inspiring educator." },
+  { name: "Rohit Saini", avatar: "RS", rating: 5, date: "3 months ago", text: "I had an amazing learning experience with Krishna Sir. His teaching methods and easy-to-understand techniques helped me a lot in cracking my Maths/Aptitude. He explains even the toughest concepts in a very simple and clear way, making learning extremely smooth." },
+  { name: "ANU GUPTA", avatar: "AG", rating: 5, date: "a month ago", text: "A safe and professional institute for girls. The teachers are very supportive and provide personal care to help students reach their goals." },
+  { name: "Himanshu Bhardwaj", avatar: "HB", rating: 5, date: "3 months ago", text: "krishna classes is very best and very amazing experience and the teacher are very good and well they always treat like your own child and they always provide the works and assignment...its very best ..for the students" },
+  { name: "Dev", avatar: "DV", rating: 5, date: "a month ago", text: "One of the best tutor. The kind of knowledge which is providing in this coaching is fabulous. Nature is very polite. Highly recommended." },
+  { name: "Sourabh Bamne", avatar: "SB", rating: 5, date: "3 months ago", text: "Excellent coaching institute." },
+
+  // Image 2
+  { name: "DURGE SHNI MARKAM", avatar: "DM", rating: 5, date: "3 months ago", text: "Best coaching institute in bhopal\nConcepts are cleared, expertised facluty\nI secured 94 percent in class 10 centre board special thanks to krishna sir for guidance ." },
+  { name: "Prince Kush", avatar: "PK", rating: 5, date: "3 months ago", text: "Sir your explanation is awesome I learned new things daily in your classes that inspire me and motivates me to continue my bleach journey." },
+  { name: "Bhupendra Goyal", avatar: "BG", rating: 5, date: "3 months ago", text: "Best platform for the learning.\nK.K. sir is brilliant teacher for aptitude.." },
+  { name: "Rohan Kasr", avatar: "RK", rating: 5, date: "a year ago", text: "Krishna Sir is an exceptional aptitude teacher who makes complex problems easy to understand. His teaching style is interactive, and he explains concepts with clarity and practical examples. His dedication and support help students improve." },
+  { name: "Brij lala Soni", avatar: "BS", rating: 5, date: "a year ago", text: "My son was struggling with Maths in 10th grade, and we decided to enroll him at Krishna Classes. The tutors were patient and explained concepts clearly. Within a few months, his grades improved significantly, and he gained confidence." },
+  { name: "Preet Nagar", avatar: "PN", rating: 5, date: "3 months ago", text: "Sir the way your teaches us is awesome, I learned new things daily in your class thank you sir." },
+  { name: "Yashvant Singh", avatar: "YS", rating: 5, date: "3 months ago", text: "If anyone want one-on-one learning at home go check-out krisna sir classes and home tutor." },
+  { name: "Ankit Meena", avatar: "AM", rating: 5, date: "3 months ago", text: "The kind of knowledge which is providing in this coaching is fabulous. Overall this is wow." },
+  { name: "Rishi Sarathe", avatar: "RS", rating: 5, date: "3 months ago", text: "Sir is excellent teaching master and providing the knowledge to the students 😊" },
+  { name: "Anash Khan", avatar: "AK", rating: 5, date: "3 months ago", text: "Excellent teaching and very supportive tutors. Highly recommended" },
+  { name: "Balram Gupta", avatar: "BG", rating: 5, date: "3 months ago", text: "Excellent coaching." },
+
+  // Image 3
+  { name: "Shubham Narware", avatar: "SN", rating: 5, date: "3 months ago", text: "Sir, you are good teaching for students.\nYour explanation is knowledgeable and thank you." },
+  { name: "Raj sahu", avatar: "RS", rating: 5, date: "11 months ago", text: "An institute with good staff and peaceful environment. Management is very co-operative and very humble. Good coordination between teachers and students. Every teacher have their own teaching style and specialised in respective subjects.( True teachership ) 👍👍" },
+  { name: "saroj sharma", avatar: "SS", rating: 5, date: "a year ago", text: "Krishna Home Tutors provided a fantastic tutor for my daughter's Science subjects. The tutor was punctual, professional, and had a great understanding of the curriculum. The personalized attention and one-on-one sessions made a huge difference. Highly recommend their home tutoring services" },
+  { name: "Abhishek Mishra", avatar: "AM", rating: 5, date: "3 months ago", text: "Krishna classes is very best and amazing experience and the teacher are very good." },
+  { name: "Shivram Ahirwar", avatar: "SA", rating: 5, date: "3 months ago", text: "Excellent knowledge in the subject!\nDoubt clearing capacity and command on subject is excellent." },
+  { name: "Rashi Chourey", avatar: "RC", rating: 5, date: "3 months ago", text: "An excellent PCM teacher who explains concepts clearly and builds strong fundamentals." },
+  { name: "Lalit Verma", avatar: "LV", rating: 5, date: "3 months ago", text: "Best coaching institute in bhopal\nConcepts are cleared, expertised faculty" },
+  { name: "Laxmi Verma", avatar: "LV", rating: 5, date: "3 months ago", text: "His explanation is very good and his also communicate with very friendly" },
+  { name: "Priyansh Sharma", avatar: "PS", rating: 5, date: "3 months ago", text: "Great classes, easy to understand, and very helpful guidance.\"" },
+  { name: "Gourav Sarkar", avatar: "GS", rating: 5, date: "3 months ago", text: "Very supportive and always helps students understand better" },
+  { name: "Harshit Dubey", avatar: "HD", rating: 5, date: "3 months ago", text: "Excellent coaching." },
 ]
 
 const overallRating = 4.9
 const totalReviews = 398
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 function Stars({ rating, size = "sm" }: { rating: number; size?: "sm" | "lg" }) {
-  const sz = size === "lg" ? "h-6 w-6" : "h-4 w-4"
+  const sz = size === "lg" ? "h-5 w-5 sm:h-6 sm:w-6" : "h-3.5 w-3.5 sm:h-4 sm:w-4"
   return (
     <div className="flex items-center gap-0.5">
       {[1, 2, 3, 4, 5].map((i) => (
@@ -71,7 +70,7 @@ const AVATAR_COLORS = [
 function Avatar({ initials }: { initials: string }) {
   const idx = ((initials.charCodeAt(0) ?? 0) + (initials.charCodeAt(1) ?? 0)) % AVATAR_COLORS.length
   return (
-    <div className={`w-10 h-10 rounded-full ${AVATAR_COLORS[idx]} flex items-center justify-center text-white text-sm font-bold shrink-0`}>
+    <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full ${AVATAR_COLORS[idx]} flex items-center justify-center text-white text-xs sm:text-sm font-bold shrink-0`}>
       {initials}
     </div>
   )
@@ -79,7 +78,7 @@ function Avatar({ initials }: { initials: string }) {
 
 function GoogleG() {
   return (
-    <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 24 24" className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" xmlns="http://www.w3.org/2000/svg">
       <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
       <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
       <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
@@ -94,9 +93,9 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
   const displayText = isLong && !expanded ? review.text.slice(0, 150) + "…" : review.text
 
   return (
-    <div className="bg-card border rounded-2xl p-5 flex flex-col gap-3 hover:shadow-md transition-shadow duration-200 h-full">
+    <div className="bg-card border rounded-2xl p-4 sm:p-5 flex flex-col gap-3 hover:shadow-md transition-shadow duration-200 h-full">
       <Quote className="h-4 w-4 text-primary/25 shrink-0" />
-      <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+      <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed flex-1 whitespace-pre-line">
         {displayText}
         {isLong && (
           <button onClick={() => setExpanded(!expanded)} className="ml-1 text-primary text-xs font-semibold hover:underline">
@@ -104,13 +103,13 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
           </button>
         )}
       </p>
-      <div className="flex items-center gap-3 pt-2 border-t border-border mt-auto">
+      <div className="flex items-center gap-2 sm:gap-3 pt-2 border-t border-border mt-auto">
         <Avatar initials={review.avatar} />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-foreground truncate">{review.name}</p>
-          <div className="flex items-center gap-2 mt-0.5">
+          <p className="text-xs sm:text-sm font-semibold text-foreground truncate">{review.name}</p>
+          <div className="flex items-center gap-1.5 sm:gap-2 mt-0.5">
             <Stars rating={review.rating} />
-            <span className="text-xs text-muted-foreground">{review.date}</span>
+            <span className="text-[10px] sm:text-xs text-muted-foreground">{review.date}</span>
           </div>
         </div>
         <GoogleG />
@@ -119,7 +118,6 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
   )
 }
 
-// ─── Section ──────────────────────────────────────────────────────────────────
 export function ReviewsSection() {
   const [page, setPage] = useState(0)
   const totalPages = Math.ceil(reviews.length / PER_PAGE)
@@ -128,37 +126,41 @@ export function ReviewsSection() {
 
   const goTo = (p: number) => {
     setPage(p)
-    // Scroll back to section top smoothly
     document.getElementById("reviews")?.scrollIntoView({ behavior: "smooth", block: "start" })
   }
 
   return (
-    <section id="reviews" className="py-16 md:py-24 bg-muted/50">
-      <div className="max-w-7xl mx-auto px-4">
+    <section id="reviews" className="py-14 md:py-24 bg-muted/50 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-8 md:mb-12">
           <span className="text-secondary font-semibold text-sm uppercase tracking-wider">Reviews</span>
-          <h2 className="mt-2 text-3xl md:text-4xl font-bold text-foreground text-balance">
+          <h2 className="mt-2 text-2xl sm:text-3xl md:text-4xl font-bold text-foreground">
             What Parents & Students Say
           </h2>
-          <p className="mt-4 text-muted-foreground text-lg text-pretty">
+          <p className="mt-3 text-muted-foreground text-base sm:text-lg">
             Trusted by thousands of families across Kolar, Bhopal. Real reviews from Google.
           </p>
         </div>
 
         {/* Overall rating card */}
-        <div className="flex justify-center mb-12">
-          <div className="bg-card border rounded-3xl px-6 sm:px-10 py-6 flex flex-col sm:flex-row items-center gap-6 shadow-sm w-full max-w-2xl">
+        <div className="flex justify-center mb-8 md:mb-12">
+          <div className="bg-card border rounded-2xl sm:rounded-3xl px-5 sm:px-8 md:px-10 py-5 sm:py-6 flex flex-col sm:flex-row items-center gap-5 sm:gap-6 shadow-sm w-full max-w-2xl">
+
+            {/* Score */}
             <div className="text-center shrink-0">
-              <div className="text-6xl font-extrabold text-foreground leading-none">{overallRating}</div>
+              <div className="text-5xl sm:text-6xl font-extrabold text-foreground leading-none">{overallRating}</div>
               <div className="mt-2 flex justify-center"><Stars rating={5} size="lg" /></div>
-              <p className="text-sm text-muted-foreground mt-1">{totalReviews}+ Google Reviews</p>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1">{totalReviews}+ Google Reviews</p>
             </div>
 
             <div className="hidden sm:block w-px h-20 bg-border shrink-0" />
+            {/* Mobile divider */}
+            <div className="block sm:hidden w-full h-px bg-border" />
 
-            <div className="space-y-1.5 flex-1 min-w-[160px]">
+            {/* Bar chart */}
+            <div className="space-y-1.5 flex-1 w-full sm:w-auto min-w-0 sm:min-w-[160px]">
               {[{ star: 5, pct: 90 }, { star: 4, pct: 7 }, { star: 3, pct: 2 }, { star: 2, pct: 1 }, { star: 1, pct: 0 }].map(({ star, pct }) => (
                 <div key={star} className="flex items-center gap-2 text-xs">
                   <span className="text-muted-foreground w-3 text-right">{star}</span>
@@ -173,40 +175,42 @@ export function ReviewsSection() {
 
             <div className="hidden sm:block w-px h-20 bg-border shrink-0" />
 
-            <div className="flex flex-col items-center gap-1 shrink-0">
+            {/* Google badge */}
+            <div className="flex flex-row sm:flex-col items-center gap-2 sm:gap-1 shrink-0">
               <GoogleG />
-              <p className="text-xs text-muted-foreground font-medium text-center leading-tight mt-1">Google<br />Reviews</p>
+              <p className="text-xs text-muted-foreground font-medium text-center leading-tight">
+                Google Reviews
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Review cards grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 min-h-[400px]">
+        {/* Review cards grid — 1 col mobile, 2 col sm, 3 col lg */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           {displayed.map((review, i) => (
             <ReviewCard key={`${review.name}-${start + i}`} review={review} />
           ))}
         </div>
 
         {/* Pagination */}
-        <div className="mt-10 flex flex-col items-center gap-4">
+        <div className="mt-8 sm:mt-10 flex flex-col items-center gap-3 sm:gap-4">
 
-          {/* Page controls */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap justify-center">
             {/* Prev */}
             <button
               onClick={() => goTo(page - 1)}
               disabled={page === 0}
-              className="w-9 h-9 rounded-xl border bg-card flex items-center justify-center text-foreground hover:border-primary/40 hover:bg-primary/5 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border bg-card flex items-center justify-center text-foreground hover:border-primary/40 hover:bg-primary/5 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
 
-            {/* Page dots/numbers */}
+            {/* Page numbers */}
             {Array.from({ length: totalPages }).map((_, i) => (
               <button
                 key={i}
                 onClick={() => goTo(i)}
-                className={`w-9 h-9 rounded-xl border text-sm font-semibold transition-all ${i === page
+                className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl border text-xs sm:text-sm font-semibold transition-all ${i === page
                     ? "bg-primary text-primary-foreground border-primary shadow-sm"
                     : "bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground"
                   }`}
@@ -219,7 +223,7 @@ export function ReviewsSection() {
             <button
               onClick={() => goTo(page + 1)}
               disabled={page === totalPages - 1}
-              className="w-9 h-9 rounded-xl border bg-card flex items-center justify-center text-foreground hover:border-primary/40 hover:bg-primary/5 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl border bg-card flex items-center justify-center text-foreground hover:border-primary/40 hover:bg-primary/5 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -235,14 +239,14 @@ export function ReviewsSection() {
             href={GOOGLE_REVIEWS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+            className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-semibold text-primary hover:underline"
           >
             <GoogleG />
             View all {totalReviews}+ reviews on Google
-            <ExternalLink className="h-3.5 w-3.5" />
+            <ExternalLink className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
           </a>
 
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground text-center px-4">
             Happy with us? Leave us a review on Google — it helps other parents find us! 🙏
           </p>
         </div>

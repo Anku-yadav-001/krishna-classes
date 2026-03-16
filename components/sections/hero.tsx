@@ -11,10 +11,10 @@ import {
 import { siteConfig } from "@/lib/site-config"
 
 const stats = [
-  { icon: Users, value: "5000+", label: "Students Enrolled" },
+  { icon: Users, value: "1000+", label: "Students Enrolled" },
   { icon: Award, value: "95%", label: "Success Rate" },
   { icon: BookOpen, value: "15+", label: "Years Experience" },
-  { icon: Trophy, value: "500+", label: "Top Rankers" },
+  { icon: Trophy, value: "100+", label: "Top Rankers" },
 ]
 
 const courses = [
