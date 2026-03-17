@@ -64,6 +64,12 @@ const juniorSubjects = [
 export function CoursesSection() {
   const activeOffer = siteConfig.offers.find((offer: any) => offer.active)
 
+  const scrollToContact = (e: React.MouseEvent) => {
+    e.preventDefault()
+    const el = document.getElementById("contact")
+    if (el) el.scrollIntoView({ behavior: "smooth" })
+  }
+
   const getDiscountedPrice = (courseId: string, originalPrice: number) => {
     if (!activeOffer || originalPrice === 0) return null
     if (activeOffer.appliesTo.includes("all") || activeOffer.appliesTo.includes(courseId)) {
@@ -106,16 +112,103 @@ export function CoursesSection() {
           </div>
         )}
 
-        {/* ── 1. Top 3 course cards: JEE · NEET · Foundation (8–10) ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {/* Mobile + tablet: all 4 cards in a 2-col grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 lg:hidden">
+          {[...mainCourses, {
+            id: "home-tuition",
+            icon: Home,
+            title: "Home Tuition",
+            subtitle: "Any Class · Any Subject",
+            description: "Personalised one-on-one or small-group home tuition for any class and any subject, scheduled as per the family's convenience.",
+            features: ["Any class from 1st to 12th", "Any subject covered", "Flexible batch timings", "At your home or online", "Personalised attention"],
+            timing: "As per convenience",
+            batchSize: "Flexible",
+            subjects: "All Subjects",
+            price: 0,
+            popular: false,
+          }].map((course) => {
+            const discountedPrice = getDiscountedPrice(course.id, course.price)
+            const Icon = course.icon
+            const isHomeTuition = course.id === "home-tuition"
+            return (
+              <Card
+                key={course.id}
+                className={`relative overflow-hidden transition-all hover:shadow-lg flex flex-col ${course.popular ? "ring-2 ring-secondary" : ""}`}
+              >
+                {course.popular && (
+                  <div className="absolute top-3 right-3">
+                    <Badge className="bg-secondary text-secondary-foreground text-xs">Popular</Badge>
+                  </div>
+                )}
+                <CardHeader className="pb-3 pt-4 px-4">
+                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-3">
+                    <Icon className="h-5 w-5 text-primary" />
+                  </div>
+                  <h3 className="text-base font-bold text-foreground leading-snug pr-14">{course.title}</h3>
+                  <p className="text-xs text-muted-foreground">{course.subtitle}</p>
+                </CardHeader>
+                <CardContent className="space-y-3 flex-1 px-4">
+                  <p className="text-xs text-muted-foreground leading-relaxed">{course.description}</p>
+                  <div className="space-y-1.5 text-xs text-muted-foreground">
+                    <div className="flex items-start gap-1.5"><Clock className="h-3.5 w-3.5 shrink-0 mt-0.5" /><span>{course.timing}</span></div>
+                    <div className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5 shrink-0" /><span>{course.batchSize}</span></div>
+                    <div className="flex items-start gap-1.5"><BookOpen className="h-3.5 w-3.5 shrink-0 mt-0.5" /><span>{course.subjects}</span></div>
+                  </div>
+                  <ul className="space-y-1.5">
+                    {course.features.slice(0, 3).map((f) => (
+                      <li key={f} className="text-xs text-foreground flex items-start gap-2">
+                        <span className="text-secondary mt-0.5 shrink-0">•</span>{f}
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="pt-1">
+                    {isHomeTuition ? (
+                      <div>
+                        <span className="text-xl font-bold text-foreground">₹4,000 – ₹8,000</span>
+                        <span className="text-xs text-muted-foreground block mt-0.5">per month</span>
+                      </div>
+                    ) : course.price > 0 ? (
+                      discountedPrice ? (
+                        <div>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-xl font-bold text-foreground">₹{discountedPrice.toLocaleString()}</span>
+                            <span className="text-xs text-muted-foreground line-through">₹{course.price.toLocaleString()}</span>
+                          </div>
+                          <span className="text-xs text-muted-foreground block mt-0.5">per year</span>
+                        </div>
+                      ) : (
+                        <div>
+                          <span className="text-xl font-bold text-foreground">₹{course.price.toLocaleString()}</span>
+                          <span className="text-xs text-muted-foreground block mt-0.5">per year</span>
+                        </div>
+                      )
+                    ) : null}
+                  </div>
+                </CardContent>
+                <CardFooter className="px-4 pb-4">
+                  <Button
+                    className="w-full"
+                    size="sm"
+                    variant={course.popular ? "default" : "outline"}
+                    onClick={scrollToContact}
+                  >
+                    Enroll Now <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </CardFooter>
+              </Card>
+            )
+          })}
+        </div>
+
+        {/* Desktop: top 3 cards only */}
+        <div className="hidden lg:grid lg:grid-cols-3 gap-5">
           {mainCourses.map((course) => {
             const discountedPrice = getDiscountedPrice(course.id, course.price)
             const Icon = course.icon
             return (
               <Card
                 key={course.id}
-                className={`relative overflow-hidden transition-all hover:shadow-lg flex flex-col ${course.popular ? "ring-2 ring-secondary" : ""
-                  }`}
+                className={`relative overflow-hidden transition-all hover:shadow-lg flex flex-col ${course.popular ? "ring-2 ring-secondary" : ""}`}
               >
                 {course.popular && (
                   <div className="absolute top-3 right-3">
@@ -163,8 +256,12 @@ export function CoursesSection() {
                   )}
                 </CardContent>
                 <CardFooter className="px-4 pb-4">
-                  <Button asChild className="w-full" size="sm">
-                    <Link href="#contact">Enroll Now <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                  <Button
+                    className="w-full"
+                    size="sm"
+                    onClick={scrollToContact}
+                  >
+                    Enroll Now <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </CardFooter>
               </Card>
@@ -172,7 +269,7 @@ export function CoursesSection() {
           })}
         </div>
 
-        {/* ── 2. Junior Segment (Class 6–7) — right after Class 8–10 ── */}
+        {/* Junior Segment (Class 6–7) */}
         <div id="junior-courses" className="mt-6 sm:mt-8 rounded-2xl sm:rounded-3xl bg-primary overflow-hidden">
           <div className="grid lg:grid-cols-2">
 
@@ -219,8 +316,11 @@ export function CoursesSection() {
                     </div>
                   ))}
                 </div>
-                <Button asChild className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground font-bold h-11">
-                  <Link href="#contact">Enroll in Junior Programme <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                <Button
+                  className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground font-bold h-11"
+                  onClick={scrollToContact}
+                >
+                  Enroll in Junior Programme <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
             </div>
@@ -259,50 +359,9 @@ export function CoursesSection() {
           </div>
         </div>
 
-        {/* ── 3. Home Tuition ──
-            Mobile/sm: compact card matching the top 3 cards style
-            lg+:       wide 4-col banner layout  */}
-        <div className="mt-6 sm:mt-8">
-
-          {/* Mobile card (hidden on lg+) */}
-          <Card className="lg:hidden overflow-hidden transition-all hover:shadow-lg flex flex-col">
-            <CardHeader className="pb-3 pt-4 px-4">
-              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-3">
-                <Home className="h-5 w-5 text-primary" />
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-foreground leading-snug">Home Tuition</h3>
-              <p className="text-xs text-muted-foreground">Any Class · Any Subject</p>
-            </CardHeader>
-            <CardContent className="space-y-3 flex-1 px-4">
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Personalised one-on-one or small-group home tuition for any class and any subject, scheduled as per the family's convenience.
-              </p>
-              <div className="space-y-1.5 text-xs text-muted-foreground">
-                <div className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5 shrink-0" /><span>As per convenience</span></div>
-                <div className="flex items-center gap-1.5"><Users className="h-3.5 w-3.5 shrink-0" /><span>Flexible batch size</span></div>
-                <div className="flex items-center gap-1.5"><BookOpen className="h-3.5 w-3.5 shrink-0" /><span>All Subjects</span></div>
-              </div>
-              <ul className="space-y-1.5">
-                {["Any class from 1st to 12th", "Any subject covered", "Flexible batch timings", "At your home or online", "Personalised attention"].map((f) => (
-                  <li key={f} className="text-xs sm:text-sm text-foreground flex items-start gap-2">
-                    <span className="text-secondary mt-0.5 shrink-0">•</span>{f}
-                  </li>
-                ))}
-              </ul>
-              <div className="pt-1">
-                <span className="text-xl sm:text-2xl font-bold text-foreground">₹4,000 – ₹8,000</span>
-                <span className="text-xs text-muted-foreground block mt-0.5">per month</span>
-              </div>
-            </CardContent>
-            <CardFooter className="px-4 pb-4">
-              <Button asChild className="w-full" size="sm" variant="outline">
-                <Link href="#contact">Enroll Now <ArrowRight className="ml-2 h-4 w-4" /></Link>
-              </Button>
-            </CardFooter>
-          </Card>
-
-          {/* Desktop wide banner (hidden below lg) */}
-          <Card className="hidden lg:block overflow-hidden transition-all hover:shadow-lg">
+        {/* Home Tuition wide banner — desktop only */}
+        <div className="hidden lg:block mt-6 sm:mt-8">
+          <Card className="overflow-hidden transition-all hover:shadow-lg">
             <div className="grid lg:grid-cols-4 divide-x divide-border">
               <div className="p-5 flex flex-col justify-center">
                 <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center mb-3">
@@ -335,25 +394,31 @@ export function CoursesSection() {
                   <span className="text-2xl font-bold text-foreground">₹4,000 – ₹8,000</span>
                   <span className="text-xs text-muted-foreground block mt-0.5">per month</span>
                 </div>
-                <Button asChild className="w-full" size="sm" variant="outline">
-                  <Link href="#contact">Enroll Now <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                <Button
+                  className="w-full"
+                  size="sm"
+                  variant="outline"
+                  onClick={scrollToContact}
+                >
+                  Enroll Now <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
             </div>
           </Card>
-
         </div>
 
-        {/* Bottom CTA */}
         <div className="mt-10 text-center">
           <p className="text-muted-foreground text-sm sm:text-base mb-4">
             Need help choosing the right course? Talk to our counselors.
           </p>
-          <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
-            <Link href="#contact">
-              Get Free Counseling
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full sm:w-auto"
+            onClick={scrollToContact}
+          >
+            Get Free Counseling
+            <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>
 

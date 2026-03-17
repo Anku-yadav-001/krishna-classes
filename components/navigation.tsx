@@ -39,7 +39,6 @@ const todayIndex = (() => {
 })()
 
 // Returns true only if the current time is within 10:30 AM – 9:30 PM on Mon–Sat.
-// Sunday is always closed regardless of time.
 function isCurrentlyOpen(): boolean {
   const now = new Date()
   if (now.getDay() === 0) return false // Sunday
@@ -50,24 +49,53 @@ function isCurrentlyOpen(): boolean {
 // Returns a human-readable "opens …" hint for when closed
 function nextOpenLabel(): string {
   const now = new Date()
-  const dayOfWeek = now.getDay() // 0=Sun … 6=Sat
+  const dayOfWeek = now.getDay()
   const totalMins = now.getHours() * 60 + now.getMinutes()
   const openMins = 10 * 60 + 30
 
-  // If it's a weekday and we haven't opened yet today
   if (dayOfWeek !== 0 && totalMins < openMins) {
     return "Opens today at 10:30 AM"
   }
-  // After hours on Saturday → opens Monday
   if (dayOfWeek === 6) return "Opens Monday at 10:30 AM"
-  // Sunday → opens tomorrow (Monday)
   if (dayOfWeek === 0) return "Opens tomorrow at 10:30 AM"
-  // After hours on any weekday → opens tomorrow
   return "Opens tomorrow at 10:30 AM"
 }
+
+// ─── Top bar height on desktop: ~40px (py-2 + text-sm line)
+// ─── Nav header height: h-16 (64px) mobile, h-20 (80px) desktop
+// ─── Total fixed nav height:
+//       mobile  → 64px  (no top bar on mobile)
+//       desktop → 80px + 40px = 120px
+//
+// NavSpacer compensates for the fixed nav so page content isn't hidden under it.
+// Use this immediately after <Navigation /> in your layout/page:
+//
+//   <Navigation />
+//   <NavSpacer />
+//   <main>…</main>
+//
+export function NavSpacer() {
+  return (
+    <div
+      className="w-full"
+      style={{
+        // mobile: 64px nav only; md+: 64px top-bar(~40px) + 80px nav = 120px
+        height: "64px",
+      }}
+      aria-hidden="true"
+    >
+      <style>{`
+        @media (min-width: 768px) {
+          .nav-spacer { height: 120px !important; }
+        }
+      `}</style>
+      <div className="nav-spacer w-full h-full" />
+    </div>
+  )
+}
+
 function HoursDropdown() {
   const [open, setOpen] = useState(false)
-  // Re-evaluate open/closed every minute so the badge updates without refresh
   const [currentlyOpen, setCurrentlyOpen] = useState(isCurrentlyOpen)
 
   useEffect(() => {
@@ -104,17 +132,21 @@ function HoursDropdown() {
       </button>
 
       <div
-        className={`absolute right-0 top-full mt-2 z-50 w-72 rounded-xl bg-card border border-border shadow-xl overflow-hidden transition-all duration-200 ${open ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-1 pointer-events-none"
-          }`}
+        className={`absolute right-0 top-full mt-2 z-50 w-72 rounded-xl bg-card border border-border shadow-xl overflow-hidden transition-all duration-200 ${
+          open ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-1 pointer-events-none"
+        }`}
       >
         <div className="bg-primary px-4 py-3 flex items-center justify-between">
           <p className="text-primary-foreground text-xs font-semibold uppercase tracking-wider">
             Weekly Hours
           </p>
-          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${currentlyOpen
-              ? "bg-green-400/20 text-green-300 border border-green-400/30"
-              : "bg-red-400/20 text-red-300 border border-red-400/30"
-            }`}>
+          <span
+            className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+              currentlyOpen
+                ? "bg-green-400/20 text-green-300 border border-green-400/30"
+                : "bg-red-400/20 text-red-300 border border-red-400/30"
+            }`}
+          >
             {currentlyOpen ? "● Open Now" : "● Closed"}
           </span>
         </div>
@@ -147,10 +179,17 @@ function HoursDropdown() {
                     )}
                   </span>
                 </div>
-                <span className={`text-xs font-medium whitespace-nowrap ${isToday
-                    ? currentlyOpen ? "text-green-600" : "text-red-500"
-                    : item.open ? "text-muted-foreground" : "text-red-500"
-                  }`}>
+                <span
+                  className={`text-xs font-medium whitespace-nowrap ${
+                    isToday
+                      ? currentlyOpen
+                        ? "text-green-600"
+                        : "text-red-500"
+                      : item.open
+                      ? "text-muted-foreground"
+                      : "text-red-500"
+                  }`}
+                >
                   {item.hours}
                 </span>
               </div>
@@ -159,9 +198,7 @@ function HoursDropdown() {
         </div>
 
         <div className="bg-muted/50 px-4 py-2.5">
-          <p className="text-[11px] text-muted-foreground">
-            * Timings may differ on public holidays
-          </p>
+          <p className="text-[11px] text-muted-foreground">* Timings may differ on public holidays</p>
         </div>
       </div>
     </div>
@@ -180,16 +217,12 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Re-check open status every minute
   useEffect(() => {
     const timer = setInterval(() => setCurrentlyOpen(isCurrentlyOpen()), 60_000)
     return () => clearInterval(timer)
   }, [])
 
-  // KEY FIX: Close the sheet first, then scroll to the target after the
-  // sheet's close animation (~300ms) completes. Without this delay, shadcn's
-  // Dialog/Sheet focus-trap cleanup fires and steals the scroll position,
-  // causing the page to jump to the top instead of the anchor.
+  // Close the sheet first, then scroll after the sheet's close animation (~300ms).
   const handleMobileNavClick = (href: string) => {
     setIsOpen(false)
     setTimeout(() => {
@@ -202,236 +235,241 @@ export function Navigation() {
   }
 
   return (
-    <>
-      {/* Sticky wrapper — wraps both top bar (desktop) and nav header so the
-          entire block sticks as one unit. This is the reliable fix for mobile
-          sticky issues caused by parent overflow or transform contexts. */}
-      <div className="sticky top-0 z-50 w-full">
+    // ── KEY CHANGE: fixed instead of sticky ──────────────────────────────────
+    // `sticky` silently breaks when any ancestor has overflow:hidden, a CSS
+    // transform, or will-change applied — common in Next.js layouts.
+    // `fixed` is immune to ancestor styles.
+    // Pair this component with <NavSpacer /> right after it in your layout so
+    // page content starts below the nav and isn't hidden underneath it.
+    <div className="fixed top-0 left-0 right-0 z-50 w-full">
 
-        {/* Top Bar — desktop only */}
-        <div className="bg-primary text-primary-foreground py-2 px-4 hidden md:block">
-          <div className="max-w-7xl mx-auto flex items-center justify-between text-sm">
-            <div className="flex items-center gap-6">
-              <a
-                href="tel:+917869069906"
-                className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-              >
-                <Phone className="h-4 w-4" />
-                <span>{siteConfig.contact.phone}</span>
-              </a>
-              <a
-                href={`mailto:${siteConfig.contact.email}`}
-                className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-              >
-                <Mail className="h-4 w-4" />
-                <span>{siteConfig.contact.email}</span>
-              </a>
-            </div>
-            <HoursDropdown />
+      {/* Top Bar — desktop only */}
+      <div className="bg-primary text-primary-foreground py-2 px-4 hidden md:block">
+        <div className="max-w-7xl mx-auto flex items-center justify-between text-sm">
+          <div className="flex items-center gap-6">
+            <a
+              href="tel:+917869069906"
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
+              <Phone className="h-4 w-4" />
+              <span>{siteConfig.contact.phone}</span>
+            </a>
+            <a
+              href={`mailto:${siteConfig.contact.email}`}
+              className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            >
+              <Mail className="h-4 w-4" />
+              <span>{siteConfig.contact.email}</span>
+            </a>
           </div>
+          <HoursDropdown />
         </div>
+      </div>
 
-        {/* Main Navigation */}
-        <header
-          className={`w-full transition-all duration-300 ${isScrolled ? "bg-background/95 backdrop-blur-md shadow-md" : "bg-background border-b border-border/40"
-            }`}
-        >
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex items-center justify-between h-16 md:h-20">
+      {/* Main Navigation */}
+      <header
+        className={`w-full transition-all duration-300 ${
+          isScrolled
+            ? "bg-background/95 backdrop-blur-md shadow-md"
+            : "bg-background border-b border-border/40"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center justify-between h-16 md:h-20">
 
-              {/* Logo */}
-              <Link href="/" className="flex items-center gap-2">
-                <div className="bg-primary rounded-lg p-2">
-                  <GraduationCap className="h-6 w-6 md:h-8 md:w-8 text-primary-foreground" />
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2">
+              <div className="bg-primary rounded-lg p-2">
+                <GraduationCap className="h-6 w-6 md:h-8 md:w-8 text-primary-foreground" />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-lg md:text-xl text-foreground tracking-tight">KRISHNA</span>
+                <span className="text-xs md:text-sm text-muted-foreground -mt-1">CLASSES</span>
+              </div>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-1">
+              {navLinks.slice(0, 8).map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors rounded-md hover:bg-muted"
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <div className="relative group">
+                <button className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors rounded-md hover:bg-muted">
+                  More
+                </button>
+                <div className="absolute top-full right-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                  <div className="bg-card rounded-lg shadow-lg border p-2 min-w-[160px]">
+                    {navLinks.slice(8).map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-md transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex flex-col">
-                  <span className="font-bold text-lg md:text-xl text-foreground tracking-tight">KRISHNA</span>
-                  <span className="text-xs md:text-sm text-muted-foreground -mt-1">CLASSES</span>
-                </div>
-              </Link>
+              </div>
+            </nav>
 
-              {/* Desktop Navigation */}
-              <nav className="hidden lg:flex items-center gap-1">
-                {navLinks.slice(0, 8).map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors rounded-md hover:bg-muted"
+            {/* CTA */}
+            <div className="hidden md:flex items-center gap-3">
+              <Button asChild className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
+                <Link href="#contact">Enroll Now</Link>
+              </Button>
+            </div>
+
+            {/* Mobile Menu */}
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild className="lg:hidden">
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                className="w-[300px] sm:w-[350px] flex flex-col p-0 gap-0 [&>button]:hidden"
+              >
+                {/* Fixed header: logo + custom close button */}
+                <SheetHeader className="flex flex-row items-center justify-between px-5 py-4 border-b shrink-0 space-y-0">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-primary rounded-lg p-2">
+                      <GraduationCap className="h-6 w-6 text-primary-foreground" />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-lg text-foreground leading-tight">KRISHNA</span>
+                      <span className="text-xs text-muted-foreground">CLASSES</span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    aria-label="Close menu"
+                    className="rounded-md p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
                   >
-                    {link.label}
-                  </Link>
-                ))}
-                <div className="relative group">
-                  <button className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors rounded-md hover:bg-muted">
-                    More
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
                   </button>
-                  <div className="absolute top-full right-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                    <div className="bg-card rounded-lg shadow-lg border p-2 min-w-[160px]">
-                      {navLinks.slice(8).map((link) => (
-                        <Link
+                </SheetHeader>
+
+                {/* Scrollable body */}
+                <div className="flex-1 overflow-y-auto px-5 py-4">
+                  <div className="flex flex-col gap-4">
+
+                    <nav className="flex flex-col gap-0.5">
+                      {navLinks.map((link) => (
+                        <button
                           key={link.href}
-                          href={link.href}
-                          className="block px-3 py-2 text-sm text-muted-foreground hover:text-primary hover:bg-muted rounded-md transition-colors"
+                          onClick={() => handleMobileNavClick(link.href)}
+                          className="px-4 py-3 text-sm font-medium text-foreground hover:text-primary hover:bg-muted rounded-md transition-colors text-left w-full"
                         >
                           {link.label}
-                        </Link>
+                        </button>
                       ))}
+                    </nav>
+
+                    <div className="pt-2 border-t">
+                      <Button
+                        className="w-full bg-secondary hover:bg-secondary/90"
+                        onClick={() => handleMobileNavClick("#contact")}
+                      >
+                        Enroll Now
+                      </Button>
                     </div>
-                  </div>
-                </div>
-              </nav>
 
-              {/* CTA */}
-              <div className="hidden md:flex items-center gap-3">
-                <Button asChild className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
-                  <Link href="#contact">Enroll Now</Link>
-                </Button>
-              </div>
-
-              {/* Mobile Menu */}
-              <Sheet open={isOpen} onOpenChange={setIsOpen}>
-                <SheetTrigger asChild className="lg:hidden">
-                  <Button variant="ghost" size="icon">
-                    <Menu className="h-6 w-6" />
-                    <span className="sr-only">Toggle menu</span>
-                  </Button>
-                </SheetTrigger>
-                {/*
-                Structure:
-                  SheetContent (flex-col, no padding, overflow hidden)
-                  ├── SheetHeader  ← FIXED: logo + shadcn's auto close button
-                  └── scrollable div ← all nav content scrolls here
-              */}
-                <SheetContent
-                  side="right"
-                  className="w-[300px] sm:w-[350px] flex flex-col p-0 gap-0 [&>button]:hidden"
-                >
-                  {/* ── Fixed header: logo + custom close button ── */}
-                  {/* We hide shadcn's default close button via [&>button]:hidden above
-                    and render our own inside the header row for full layout control */}
-                  <SheetHeader className="flex flex-row items-center justify-between px-5 py-4 border-b shrink-0 space-y-0">
-                    <div className="flex items-center gap-2">
-                      <div className="bg-primary rounded-lg p-2">
-                        <GraduationCap className="h-6 w-6 text-primary-foreground" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="font-bold text-lg text-foreground leading-tight">KRISHNA</span>
-                        <span className="text-xs text-muted-foreground">CLASSES</span>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => setIsOpen(false)}
-                      aria-label="Close menu"
-                      className="rounded-md p-1.5 text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                      </svg>
-                    </button>
-                  </SheetHeader>
-
-                  {/* ── Scrollable body ── */}
-                  <div className="flex-1 overflow-y-auto px-5 py-4">
-                    <div className="flex flex-col gap-4">
-
-                      <nav className="flex flex-col gap-0.5">
-                        {navLinks.map((link) => (
-                          <button
-                            key={link.href}
-                            onClick={() => handleMobileNavClick(link.href)}
-                            className="px-4 py-3 text-sm font-medium text-foreground hover:text-primary hover:bg-muted rounded-md transition-colors text-left w-full"
-                          >
-                            {link.label}
-                          </button>
-                        ))}
-                      </nav>
-
-                      <div className="pt-2 border-t">
-                        <Button
-                          className="w-full bg-secondary hover:bg-secondary/90"
-                          onClick={() => handleMobileNavClick("#contact")}
-                        >
-                          Enroll Now
-                        </Button>
-                      </div>
-
-                      {/* Mobile hours — with live open/closed status */}
-                      <div className="rounded-xl border bg-muted/30 overflow-hidden">
-                        {/* Header with live status badge */}
-                        <div className="bg-primary px-3 py-2.5 flex items-center justify-between">
-                          <p className="text-primary-foreground text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                            <Clock className="h-3.5 w-3.5" /> Hours
-                          </p>
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${currentlyOpen
+                    {/* Mobile hours */}
+                    <div className="rounded-xl border bg-muted/30 overflow-hidden">
+                      <div className="bg-primary px-3 py-2.5 flex items-center justify-between">
+                        <p className="text-primary-foreground text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5">
+                          <Clock className="h-3.5 w-3.5" /> Hours
+                        </p>
+                        <span
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                            currentlyOpen
                               ? "bg-green-400/20 text-green-300 border border-green-400/30"
                               : "bg-red-400/20 text-red-300 border border-red-400/30"
-                            }`}>
-                            {currentlyOpen ? "● Open Now" : "● Closed"}
-                          </span>
+                          }`}
+                        >
+                          {currentlyOpen ? "● Open Now" : "● Closed"}
+                        </span>
+                      </div>
+
+                      {!currentlyOpen && (
+                        <div className="px-3 py-2 bg-muted/50 border-b border-border">
+                          <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+                            <Clock className="h-3 w-3 shrink-0" />
+                            {nextOpenLabel()}
+                          </p>
                         </div>
+                      )}
 
-                        {/* If closed, show when it opens next */}
-                        {!currentlyOpen && (
-                          <div className="px-3 py-2 bg-muted/50 border-b border-border">
-                            <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-                              <Clock className="h-3 w-3 shrink-0" />
-                              {nextOpenLabel()}
-                            </p>
-                          </div>
-                        )}
-
-                        <div className="divide-y divide-border">
-                          {weeklyHours.map((item, idx) => {
-                            const isToday = idx === todayIndex
-                            return (
-                              <div
-                                key={item.day}
-                                className={`flex items-center justify-between px-3 py-2 text-xs ${isToday ? "bg-primary/5" : ""}`}
+                      <div className="divide-y divide-border">
+                        {weeklyHours.map((item, idx) => {
+                          const isToday = idx === todayIndex
+                          return (
+                            <div
+                              key={item.day}
+                              className={`flex items-center justify-between px-3 py-2 text-xs ${isToday ? "bg-primary/5" : ""}`}
+                            >
+                              <span className={`font-medium flex items-center gap-1.5 ${isToday ? "text-primary" : "text-foreground"}`}>
+                                {item.day}
+                                {isToday && (
+                                  <span className="text-[9px] font-semibold bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full">
+                                    Today
+                                  </span>
+                                )}
+                              </span>
+                              <span
+                                className={`font-medium ${
+                                  isToday
+                                    ? currentlyOpen
+                                      ? "text-green-600"
+                                      : "text-red-500"
+                                    : item.open
+                                    ? "text-muted-foreground"
+                                    : "text-red-500"
+                                }`}
                               >
-                                <span className={`font-medium flex items-center gap-1.5 ${isToday ? "text-primary" : "text-foreground"}`}>
-                                  {item.day}
-                                  {isToday && (
-                                    <span className="text-[9px] font-semibold bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full">
-                                      Today
-                                    </span>
-                                  )}
-                                </span>
-                                <span className={`font-medium ${isToday
-                                    ? currentlyOpen ? "text-green-600" : "text-red-500"
-                                    : item.open ? "text-muted-foreground" : "text-red-500"
-                                  }`}>
-                                  {item.hours}
-                                </span>
-                              </div>
-                            )
-                          })}
-                        </div>
-
-                        <div className="px-3 py-2 bg-muted/30">
-                          <p className="text-[10px] text-muted-foreground">* Timings may differ on public holidays</p>
-                        </div>
+                                {item.hours}
+                              </span>
+                            </div>
+                          )
+                        })}
                       </div>
 
-                      <div className="space-y-2 text-sm text-muted-foreground pb-2">
-                        <a href="tel:+917869069906" className="flex items-center gap-2">
-                          <Phone className="h-4 w-4" />
-                          +91 78690 69906
-                        </a>
-                        <a href="mailto:krishnaclasses2009@gmail.com" className="flex items-center gap-2">
-                          <Mail className="h-4 w-4" />
-                          krishnaclasses2009@gmail.com
-                        </a>
+                      <div className="px-3 py-2 bg-muted/30">
+                        <p className="text-[10px] text-muted-foreground">* Timings may differ on public holidays</p>
                       </div>
-
                     </div>
-                  </div>
-                </SheetContent>
-              </Sheet>
 
-            </div>
+                    <div className="space-y-2 text-sm text-muted-foreground pb-2">
+                      <a href="tel:+917869069906" className="flex items-center gap-2">
+                        <Phone className="h-4 w-4" />
+                        +91 78690 69906
+                      </a>
+                      <a href="mailto:krishnaclasses2009@gmail.com" className="flex items-center gap-2">
+                        <Mail className="h-4 w-4" />
+                        krishnaclasses2009@gmail.com
+                      </a>
+                    </div>
+
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+
           </div>
-        </header>
-      </div> {/* end sticky wrapper */}
-    </>
+        </div>
+      </header>
+    </div>
   )
 }
