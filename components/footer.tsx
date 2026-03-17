@@ -36,9 +36,9 @@ const resources = [
 const socialLinks = [
   { href: siteConfig.social.facebook, icon: Facebook, label: "Facebook" },
   { href: siteConfig.social.instagram, icon: Instagram, label: "Instagram" },
-  { href: siteConfig.social.youtube, icon: Youtube, label: "YouTube" },
-  { href: siteConfig.social.twitter, icon: Twitter, label: "Twitter" },
-  { href: siteConfig.social.linkedin, icon: Linkedin, label: "LinkedIn" },
+  // { href: siteConfig.social.youtube, icon: Youtube, label: "YouTube" },
+  // { href: siteConfig.social.twitter, icon: Twitter, label: "Twitter" },
+  // { href: siteConfig.social.linkedin, icon: Linkedin, label: "LinkedIn" },
 ]
 
 export function Footer() {
