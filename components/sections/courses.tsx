@@ -71,6 +71,16 @@ export function CoursesSection() {
   }
 
   const getDiscountedPrice = (courseId: string, originalPrice: number) => {
+    // First check site-config discounted price
+    const pricingMap: Record<string, number | null> = {
+      jee: siteConfig.coursePricing.jee.discounted,
+      neet: siteConfig.coursePricing.neet.discounted,
+      foundation: siteConfig.coursePricing.foundation.discounted,
+    }
+    if (pricingMap[courseId] !== undefined && pricingMap[courseId] !== null) {
+      return pricingMap[courseId] as number
+    }
+    // Fallback: active offer % discount
     if (!activeOffer || originalPrice === 0) return null
     if (activeOffer.appliesTo.includes("all") || activeOffer.appliesTo.includes(courseId)) {
       const match = activeOffer.discount.match(/(\d+)%/)
@@ -168,20 +178,32 @@ export function CoursesSection() {
                         <span className="text-xs text-muted-foreground block mt-0.5">per month</span>
                       </div>
                     ) : course.price > 0 ? (
-                      discountedPrice ? (
-                        <div>
-                          <div className="flex items-baseline gap-2">
-                            <span className="text-xl font-bold text-foreground">₹{discountedPrice.toLocaleString()}</span>
-                            <span className="text-xs text-muted-foreground line-through">₹{course.price.toLocaleString()}</span>
-                          </div>
-                          <span className="text-xs text-muted-foreground block mt-0.5">per year</span>
+                        <div className="pt-1">
+                          {discountedPrice ? (
+                            <div>
+                              <div className="flex items-baseline gap-2 flex-wrap">
+                                <span className="text-xl sm:text-2xl font-bold text-foreground">
+                                  ₹{discountedPrice.toLocaleString()}
+                                </span>
+                                <span className="text-xs sm:text-sm text-muted-foreground line-through">
+                                  ₹{course.price.toLocaleString()}
+                                </span>
+                                {/* Savings badge */}
+                                <span className="text-[10px] sm:text-xs font-semibold px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 border border-green-200">
+                                  Save ₹{(course.price - discountedPrice).toLocaleString()}
+                                </span>
+                              </div>
+                              <span className="text-xs text-muted-foreground block mt-0.5">per year</span>
+                            </div>
+                          ) : (
+                            <div>
+                              <span className="text-xl sm:text-2xl font-bold text-foreground">
+                                ₹{course.price.toLocaleString()}
+                              </span>
+                              <span className="text-xs text-muted-foreground block mt-0.5">per year</span>
+                            </div>
+                          )}
                         </div>
-                      ) : (
-                        <div>
-                          <span className="text-xl font-bold text-foreground">₹{course.price.toLocaleString()}</span>
-                          <span className="text-xs text-muted-foreground block mt-0.5">per year</span>
-                        </div>
-                      )
                     ) : null}
                   </div>
                 </CardContent>

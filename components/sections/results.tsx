@@ -30,10 +30,10 @@ const toppers = [
 ]
 
 const resultsStats = [
-  { icon: Trophy, value: "95%", label: "Selection Rate 2024" },
-  { icon: Medal, value: "45+", label: "Students in Top 500" },
-  { icon: Star, value: "150+", label: "Students in Top 1000" },
-  { icon: TrendingUp, value: "98%", label: "Score Improvement" },
+  { icon: Trophy, value: "99%", label: "Selection Rate 2025" },
+  { icon: Medal, value: "45+", label: "Students Among Top Board Performers" },
+  { icon: Star, value: "150+", label: "Students Among Leading Board Achievers" },
+  { icon: TrendingUp, value: "100%", label: "Score Improvement" },
 ]
 
 function StarBurst({ percentage, size = "md" }: { percentage: string; size?: "sm" | "md" }) {

@@ -3,7 +3,7 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { MapPin, Briefcase, Users, Clock, ArrowRight, SearchX, Send } from "lucide-react"
+import { MapPin, Briefcase, Users, Clock, ArrowRight, SearchX, Send, Home } from "lucide-react"
 import Link from "next/link"
 import { openings } from "@/lib/site-config"
 
@@ -61,22 +61,29 @@ export function CareersSection() {
                         <h4 className="text-base sm:text-lg font-bold text-foreground leading-snug">{job.title}</h4>
                         <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">{job.department}</p>
                       </div>
-                      <Badge variant="secondary" className="shrink-0 text-xs">{job.type}</Badge>
+                      {/* <Badge variant="secondary" className="shrink-0 text-xs">{job.type}</Badge> */}
                     </div>
                   </CardHeader>
 
                   <CardContent className="space-y-3 sm:space-y-4 px-4 sm:px-6">
                     <p className="text-xs sm:text-sm text-muted-foreground">{job.description}</p>
 
-                    <div className="flex flex-wrap gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1.5">
-                        <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+                    {/* Location & Experience & Mode chips */}
+                    <div className="flex flex-wrap gap-2">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted text-xs text-muted-foreground">
+                        <MapPin className="h-3 w-3 shrink-0" />
                         {job.location}
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <Briefcase className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted text-xs text-muted-foreground">
+                        <Briefcase className="h-3 w-3 shrink-0" />
                         {job.experience}
-                      </div>
+                      </span>
+                      {job.type && (
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted text-xs text-muted-foreground">
+                          <Home className="h-3 w-3 shrink-0" />
+                          {job.type}
+                        </span>
+                      )}
                     </div>
 
                     <div>

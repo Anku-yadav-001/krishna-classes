@@ -32,7 +32,7 @@ const values = [
 const stats = [
   { value: "15+", label: "Years of Excellence", color: "text-primary" },
   { value: "1000+", label: "Students Taught", color: "text-secondary" },
-  { value: "95%", label: "Board Result Rate", color: "text-primary" },
+  { value: "100%", label: "Board Result Rate", color: "text-primary" },
   { value: "5★", label: "Parent Rating", color: "text-secondary" },
 ]
 

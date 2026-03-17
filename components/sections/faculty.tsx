@@ -6,7 +6,7 @@ import Image from "next/image"
 const faculty = [
   {
     name: "K K Gupta",
-    subjects: "Maths & Science",
+    subjects: "Maths & Physics",
     qualification: "M.Tech, B.Tech",
     experience: "12",
     description: "A seasoned educator with over a decade of experience in making complex mathematical and scientific concepts accessible to students.",
@@ -30,7 +30,7 @@ const faculty = [
   },
   {
     name: "Aniket Sandilya",
-    subjects: "Social Studies",
+    subjects: "English & Social Studies",
     qualification: "M.A.",
     experience: "5",
     description: "Dynamic educator who brings history and civics to life through engaging storytelling and interactive teaching methods.",

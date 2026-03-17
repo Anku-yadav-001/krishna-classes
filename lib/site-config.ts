@@ -31,6 +31,7 @@ export const siteConfig = {
     email: "krishnaclasses2009@gmail.com",
     address: "Address: 207, Mandakini colony, Near Mandakini square, opposite Vimal Saree Emporium Kolar road Bhopal 462042",
     timings: "Mon - Sat: 8:00 AM - 8:00 PM",
+    businessMobile: "9244315580"
   },
 
   // Social Media Links
@@ -87,16 +88,16 @@ export const siteConfig = {
   // Course Pricing (for display with/without offers)
   coursePricing: {
     jee: {
-      regular: 81250,
-      discounted: null, // Set a number to show discounted price
+      regular: 81250,   // crossed out (original)
+      discounted: 56000, // highlighted (actual)
     },
     neet: {
       regular: 75000,
-      discounted: null,
+      discounted: 50000,
     },
     foundation: {
       regular: 45000,
-      discounted: null,
+      discounted: 36000,
     },
     homeTuition: {
       regular: 35000,
@@ -124,7 +125,7 @@ export const openings = [
     title: "Home Tutor",
     department: "Teaching",
     location: "Kolar, Bhopal (Home Visits)",
-    type: "Full Time",
+    type: "Part Time + Full Time",
     experience: "2+ Years",
     description:
       "We are looking for dedicated home tutors who can teach students from Class 1st to 12th across any subject. Candidates must be comfortable travelling to students' homes and delivering personalised, effective lessons.",

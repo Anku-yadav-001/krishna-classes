@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { siteConfig } from "@/lib/site-config"
-import { GraduationCap, Facebook, Instagram, Youtube, Twitter, Linkedin, Phone, Mail, MapPin } from "lucide-react"
+import { GraduationCap, Facebook, Instagram, Youtube, Twitter, Linkedin, Phone, Mail, MapPin, MessageCircle } from "lucide-react"
 
 const quickLinks = [
   { href: "#home", label: "Home" },
@@ -36,6 +36,11 @@ const resources = [
 const socialLinks = [
   { href: siteConfig.social.facebook, icon: Facebook, label: "Facebook" },
   { href: siteConfig.social.instagram, icon: Instagram, label: "Instagram" },
+  {
+    href: `https://wa.me/91${siteConfig.contact.businessMobile.replace(/\D/g, "")}?text=${encodeURIComponent("Hi! I visited the Krishna Classes website and would like to know more about your courses and admissions. Could you please help me?")}`,
+    icon: MessageCircle,
+    label: "WhatsApp",
+  },
   // { href: siteConfig.social.youtube, icon: Youtube, label: "YouTube" },
   // { href: siteConfig.social.twitter, icon: Twitter, label: "Twitter" },
   // { href: siteConfig.social.linkedin, icon: Linkedin, label: "LinkedIn" },

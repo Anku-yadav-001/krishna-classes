@@ -8,13 +8,13 @@ const achievements = [
     icon: Star,
     title: "5-Star Parent Ratings",
     description: "Consistently rated 5 stars by parents and students for quality teaching and personal attention.",
-    year: "2024",
+    year: "2025",
   },
   {
     icon: CheckCircle,
     title: "95%+ Board Results",
     description: "Students from our foundation batches have achieved 90%+ in CBSE and MP Board examinations.",
-    year: "2024",
+    year: "2025",
   },
   {
     icon: Heart,
@@ -26,7 +26,7 @@ const achievements = [
     icon: Home,
     title: "Home Tuition Network",
     description: "One of the most trusted home tuition providers in Kolar, Bhopal — any class, any subject.",
-    year: "2024",
+    year: "2025",
   },
   {
     icon: Users,
@@ -38,13 +38,13 @@ const achievements = [
     icon: Clock,
     title: "15+ Years of Service",
     description: "Serving the Kolar community since 2009 with consistent quality and affordable education.",
-    year: "2009–2024",
+    year: "2009–2025",
   },
 ]
 
 const milestones = [
   { icon: Users, number: "1000+", label: "Students Taught" },
-  { icon: Trophy, number: "95%", label: "Board Result Rate" },
+  { icon: Trophy, number: "100%", label: "Board Result Rate" },
   { icon: BookOpen, number: "15+", label: "Years of Service" },
   { icon: Star, number: "5★", label: "Parent Rating" },
 ]
@@ -55,12 +55,21 @@ const timeline = [
   { year: "2015", event: "Introduced Class 6–10 Foundation programme" },
   { year: "2018", event: "Expanded to IIT-JEE & NEET coaching batches" },
   { year: "2024", event: "1000+ students milestone · 15 years of excellence" },
+  { year: "2026", event: "Continuing our journey · Growing stronger with every student we serve" },
 ]
 
 export function AchievementsSection() {
   return (
     <section id="achievements" className="py-14 md:py-24 bg-muted/50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <style>{`
+          @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6); }
+            50%       { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+          }
+          .dot-live { animation: pulse-green 1.8s ease-in-out infinite; }
+        `}</style>
 
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-8 md:mb-12">
@@ -116,42 +125,84 @@ export function AchievementsSection() {
             Our Journey Through the Years
           </h3>
 
-          <div className="relative">
-            {/* Horizontal connector line — desktop only */}
-            <div className="hidden md:block absolute top-5 left-0 right-0 h-0.5 bg-border" />
-
-            {/* Mobile: vertical timeline — Desktop: horizontal 5-col grid */}
-            <div className="flex flex-col gap-3 md:grid md:grid-cols-5 md:gap-4">
-              {timeline.map((item, index) => (
-                <div key={index} className="relative md:text-center">
-
-                  {/* Mobile: left-rail dot + line */}
-                  <div className="flex items-start gap-3 md:block">
-                    <div className="flex flex-col items-center md:hidden shrink-0">
-                      <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center shrink-0">
-                        <span className="text-primary-foreground text-xs font-bold">{item.year.slice(2)}</span>
+          {/* ── DESKTOP layout: two-row approach ── */}
+          <div className="hidden md:block">
+            {/* Row 1: connector line + dots */}
+            <div className="relative mb-4">
+              <div className="absolute top-5 left-0 right-0 h-0.5 bg-border" />
+              <div className="grid grid-cols-6 gap-2">
+                {timeline.map((item, index) => {
+                  const isLatest = index === timeline.length - 1
+                  return (
+                    <div key={index} className="flex justify-center">
+                      <div className={`w-10 h-10 rounded-full relative z-10 flex items-center justify-center ${isLatest ? "bg-green-500 dot-live" : "bg-primary"
+                        }`}>
+                        <span className="text-white text-xs font-bold">{item.year.slice(2)}</span>
                       </div>
-                      {/* Vertical connector — not on last item */}
-                      {index < timeline.length - 1 && (
-                        <div className="w-0.5 flex-1 bg-border mt-1 min-h-[1.5rem]" />
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Row 2: cards — all same height via grid row stretch */}
+            <div className="grid grid-cols-6 gap-2 items-stretch">
+              {timeline.map((item, index) => {
+                const isLatest = index === timeline.length - 1
+                return (
+                  <div key={index} className={`p-3 rounded-xl border shadow-sm text-center flex flex-col ${isLatest
+                      ? "bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-800"
+                      : "bg-card"
+                    }`}>
+                    <div className={`text-sm font-bold mb-1.5 flex items-center justify-center gap-1.5 flex-wrap ${isLatest ? "text-green-600 dark:text-green-400" : "text-primary"
+                      }`}>
+                      {item.year}
+                      {isLatest && (
+                        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300">
+                          Live
+                        </span>
                       )}
                     </div>
-
-                    {/* Desktop: dot above card */}
-                    <div className="hidden md:flex w-10 h-10 bg-primary rounded-full mx-auto mb-4 relative z-10 items-center justify-center">
-                      <span className="text-primary-foreground text-xs font-bold">{item.year.slice(2)}</span>
-                    </div>
-
-                    {/* Card */}
-                    <div className="bg-card p-3 sm:p-4 rounded-xl border shadow-sm hover:shadow-md transition-shadow flex-1 md:flex-none">
-                      <div className="text-sm sm:text-base font-bold text-primary mb-1">{item.year}</div>
-                      <div className="text-xs text-muted-foreground leading-snug">{item.event}</div>
-                    </div>
+                    <div className="text-xs text-muted-foreground leading-snug">{item.event}</div>
                   </div>
-
-                </div>
-              ))}
+                )
+              })}
             </div>
+          </div>
+
+          {/* ── MOBILE layout: vertical timeline ── */}
+          <div className="flex flex-col gap-3 md:hidden">
+            {timeline.map((item, index) => {
+              const isLatest = index === timeline.length - 1
+              return (
+                <div key={index} className="flex items-start gap-3">
+                  <div className="flex flex-col items-center shrink-0">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${isLatest ? "bg-green-500 dot-live" : "bg-primary"
+                      }`}>
+                      <span className="text-white text-xs font-bold">{item.year.slice(2)}</span>
+                    </div>
+                    {index < timeline.length - 1 && (
+                      <div className="w-0.5 flex-1 bg-border mt-1 min-h-[1.5rem]" />
+                    )}
+                  </div>
+                  <div className={`p-3 rounded-xl border shadow-sm flex-1 ${isLatest
+                      ? "bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-800"
+                      : "bg-card"
+                    }`}>
+                    <div className={`text-sm font-bold mb-1 flex items-center gap-1.5 ${isLatest ? "text-green-600 dark:text-green-400" : "text-primary"
+                      }`}>
+                      {item.year}
+                      {isLatest && (
+                        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-green-100 text-green-700">
+                          Live
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-xs text-muted-foreground leading-snug">{item.event}</div>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
 
