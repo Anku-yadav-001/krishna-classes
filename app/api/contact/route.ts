@@ -218,7 +218,7 @@ export async function POST(req: Request) {
     <div style="color:#ffffff;font-size:13px;font-weight:700;margin-bottom:4px;">Krishna Classes &amp; Home Tutors</div>
     <div style="color:#64748b;font-size:11px;margin-bottom:12px;">207, Mandakini Colony, Kolar Road, Bhopal · +91 78690 69906</div>
     <div style="color:#334155;font-size:10px;border-top:1px solid #1e293b;padding-top:12px;">
-      Automated notification from krishnaclasses.in — do not reply directly.
+      Automated notification from krishnaclasses.co.in — do not reply directly.
     </div>
   </td></tr>
 

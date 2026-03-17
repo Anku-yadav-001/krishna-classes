@@ -454,11 +454,11 @@ export function Navigation() {
                     <div className="space-y-2 text-sm text-muted-foreground pb-2">
                       <a href="tel:+917869069906" className="flex items-center gap-2">
                         <Phone className="h-4 w-4" />
-                        +91 78690 69906
+                        {siteConfig.contact.phone}
                       </a>
-                      <a href="mailto:krishnaclasses2009@gmail.com" className="flex items-center gap-2">
+                      <a href={`mailto:${siteConfig.contact.email}`} className="flex items-center gap-2">
                         <Mail className="h-4 w-4" />
-                        krishnaclasses2009@gmail.com
+                        {siteConfig.contact.email}
                       </a>
                     </div>
 
