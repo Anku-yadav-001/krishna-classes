@@ -10,7 +10,7 @@ const faculty = [
     qualification: "M.Tech, B.Tech",
     experience: "12",
     description: "A seasoned educator with over a decade of experience in making complex mathematical and scientific concepts accessible to students.",
-    photoUrl: "",
+    photoUrl: "/faculties/kk-gupta.png",
   },
   {
     name: "Gaurav Mishra",
@@ -18,7 +18,7 @@ const faculty = [
     qualification: "M.Tech, B.Tech",
     experience: "13",
     description: "Expert mathematics faculty specializing in problem-solving techniques for competitive exams with 13+ years of dedication.",
-    photoUrl: "",
+    photoUrl: "/faculties/gaurav-mishra.png",
   },
   {
     name: "Dheerendra Patel",
@@ -26,7 +26,7 @@ const faculty = [
     qualification: "Ph.D. (Spain)",
     experience: "20",
     description: "Internationally trained chemist with a Ph.D. from Spain and two decades of teaching excellence in chemistry education.",
-    photoUrl: "",
+    photoUrl: "/faculties/dheerendra-patel.png",
   },
   {
     name: "Aniket Sandilya",
@@ -64,37 +64,35 @@ export function FacultySection() {
           </p>
         </div>
 
-        {/* Faculty Grid
-            Mobile:  1 col
-            sm:      2 col
-            lg:      3 col
-            5 cards → last row on lg is centred via the wrapper trick */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {faculty.map((member, index) => (
             <div
               key={index}
               className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 group"
             >
-              {/* Photo banner */}
+              {/* Blue banner with centered circular photo */}
               <div className="h-36 sm:h-40 bg-primary flex items-center justify-center relative overflow-hidden">
-                {member.photoUrl ? (
-                  <Image
-                    src={member.photoUrl}
-                    alt={member.name}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="w-18 h-18 sm:w-20 sm:h-20 bg-blue-400/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-3xl font-bold ring-4 ring-white/20 group-hover:scale-105 transition-transform duration-300"
-                    style={{ width: "4.5rem", height: "4.5rem" }}
-                  >
-                    {member.name.charAt(0)}
-                  </div>
-                )}
 
                 {/* Decorative circles */}
                 <div className="absolute top-3 right-3 w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-full pointer-events-none" />
                 <div className="absolute top-5 right-7 w-5 h-5 sm:w-6 sm:h-6 bg-white/10 rounded-full pointer-events-none" />
+                <div className="absolute bottom-4 left-4 w-8 h-8 bg-white/10 rounded-full pointer-events-none" />
+
+                {/* Centered circular avatar */}
+                <div className="relative z-10 w-20 h-20 sm:w-24 sm:h-24 rounded-full ring-4 ring-white/30 overflow-hidden group-hover:scale-105 transition-transform duration-300 shrink-0">
+                  {member.photoUrl ? (
+                    <Image
+                      src={member.photoUrl}
+                      alt={member.name}
+                      fill
+                      className="object-cover object-center"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-blue-400/40 flex items-center justify-center text-white text-3xl font-bold">
+                      {member.name.charAt(0)}
+                    </div>
+                  )}
+                </div>
 
                 {/* S-curve bottom edge */}
                 <div className="absolute -bottom-px left-0 right-0">
@@ -105,7 +103,7 @@ export function FacultySection() {
               </div>
 
               {/* Info */}
-              <div className="px-4 sm:px-5 pb-5 pt-1">
+              <div className="px-4 sm:px-5 pb-5 pt-3">
                 {/* Name + experience badge */}
                 <div className="flex justify-between items-start mb-2 gap-2">
                   <div className="min-w-0">

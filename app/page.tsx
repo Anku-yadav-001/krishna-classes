@@ -13,6 +13,7 @@ import { CareersSection } from "@/components/sections/careers"
 import { ContactSection } from "@/components/sections/contact"
 import { Footer } from "@/components/footer"
 import { OfferBanner } from "@/components/offer-banner"
+import { StudyMaterialSection } from "@/components/sections/study-materials"
 
 export default function Home() {
   return (
@@ -26,7 +27,8 @@ export default function Home() {
         <CoursesSection />
         <ResultsSection />
         <FacultySection />
-        <BatchesSection />
+        {/* <BatchesSection /> */}
+        <StudyMaterialSection/>
         <AchievementsSection />
         <ReviewsSection />
         <GallerySection />
