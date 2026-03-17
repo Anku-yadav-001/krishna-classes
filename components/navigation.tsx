@@ -320,12 +320,12 @@ export function Navigation() {
             </nav>
 
             {/* CTA */}
+            <div className="flex items-center gap-3">
             <div className="hidden md:flex items-center gap-3">
               <Button asChild className="bg-secondary hover:bg-secondary/90 text-secondary-foreground">
                 <Link href="#contact">Enroll Now</Link>
               </Button>
             </div>
-
             {/* Mobile Menu */}
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild className="lg:hidden">
@@ -466,7 +466,7 @@ export function Navigation() {
                 </div>
               </SheetContent>
             </Sheet>
-
+            </div>
           </div>
         </div>
       </header>
