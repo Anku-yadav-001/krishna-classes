@@ -91,7 +91,7 @@ function TopperCard({ topper }: { topper: (typeof toppers)[0] }) {
     <figure
       className={cn(
         "relative flex flex-col items-center rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg",
-        "w-36 sm:w-44 shrink-0 mx-2 sm:mx-3",
+        "w-48 sm:w-52 shrink-0 mx-[1px] sm:mx-1",
         "transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl",
         featured
           ? "bg-primary ring-2 ring-secondary ring-offset-2"
@@ -115,14 +115,19 @@ function TopperCard({ topper }: { topper: (typeof toppers)[0] }) {
       <div className="relative mt-2 mb-1 px-2 w-full flex justify-center">
         <div
           className={cn(
-            "relative w-full aspect-[3/4] max-w-[90px] rounded-lg overflow-hidden border-2 shadow-lg",
+            "relative w-full rounded-lg overflow-hidden border-2 shadow-lg",
             featured ? "border-white/40" : "border-primary/20"
           )}
+          style={{
+            maxWidth: "108px",
+            height: "calc(108px * (4 / 3) + 4px)",
+          }}
         >
           <img
             src={topper.image}
             alt={topper.name}
-            className="w-full h-full object-cover object-top"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: "center 5%" }}
           />
         </div>
         <div className="absolute -top-2 right-1">
@@ -244,7 +249,7 @@ export function ResultsSection() {
         </div>
 
         {/* ── Topper Cards — single-row marquee ── */}
-        <div className="relative flex w-full items-center overflow-hidden py-4">
+        <div className="relative flex w-full items-center overflow-hidden py-2">
           <Marquee pauseOnHover className="[--duration:18s]">
             {toppers.map((topper, i) => (
               <TopperCard key={`${topper.name}-${i}`} topper={topper} />
