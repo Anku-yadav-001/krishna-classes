@@ -131,7 +131,7 @@ export function FacultySection() {
                   <div className="bg-blue-50 p-1.5 rounded-md shrink-0 mt-0.5">
                     <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-600" />
                   </div>
-                  <p className="text-xs sm:text-sm leading-relaxed line-clamp-2">{member.description}</p>
+                  <p className="text-xs sm:text-sm leading-relaxed">{member.description}</p>
                 </div>
               </div>
             </div>

@@ -9,12 +9,13 @@ import {
   Calculator, FlaskConical, Globe, Home, Sparkles, Clock,
 } from "lucide-react"
 import { siteConfig } from "@/lib/site-config"
+import { NumberTicker } from "../ui/number-ticker"
 
 const stats = [
-  { icon: Users, value: "1000+", label: "Students Enrolled" },
-  { icon: Award, value: "95%", label: "Success Rate" },
-  { icon: BookOpen, value: "15+", label: "Years Experience" },
-  { icon: Trophy, value: "100+", label: "Top Rankers" },
+  { icon: Users, value: 1000, suffix: "+", label: "Students Enrolled" },
+  { icon: Award, value: 100, suffix: "%", label: "Success Rate" },
+  { icon: BookOpen, value: 15, suffix: "+", label: "Years Experience" },
+  { icon: Trophy, value: 100, suffix: "+", label: "Top Rankers" },
 ]
 
 const courses = [
@@ -63,20 +64,11 @@ const courses = [
 // ─── Animated "New Batch Starting" ticker ────────────────────────────────────
 function NewBatchBanner() {
   const [visible, setVisible] = useState(true)
-  const [pulse, setPulse] = useState(false)
-
-  useEffect(() => {
-    const interval = setInterval(() => setPulse(p => !p), 1000)
-    return () => clearInterval(interval)
-  }, [])
 
   if (!visible) return null
 
   return (
-    <div className="relative overflow-hidden bg-secondary/10 border border-secondary/30 rounded-xl px-3 py-2.5 mb-6 flex items-center justify-between gap-2">
-      {/* Animated shimmer sweep */}
-      <div className="absolute inset-0 -translate-x-full animate-[shimmer_2.5s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
-
+    <div className="relative overflow-hidden bg-white rounded-xl px-3 py-2.5 mb-6 flex items-center justify-between gap-2 shadow-sm">
       <div className="flex items-center gap-2 min-w-0">
         <span className="relative flex h-3 w-3 shrink-0">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75" />
@@ -85,10 +77,10 @@ function NewBatchBanner() {
 
         <Sparkles className="h-4 w-4 text-secondary shrink-0" />
 
-        <p className="text-white text-xs sm:text-sm font-semibold truncate">
+        <p className="text-foreground text-xs sm:text-sm font-semibold truncate">
           🎓 New Batches —{" "}
-          <span className="text-secondary">Limited Seats!</span>
-          <span className="hidden sm:inline text-white/70 font-normal">
+          <span className="text-secondary font-bold">Limited Seats!</span>
+          <span className="hidden sm:inline text-muted-foreground font-normal">
             {" "}· Mon–Sat · All Courses
           </span>
         </p>
@@ -103,19 +95,12 @@ function NewBatchBanner() {
         </Link>
         <button
           onClick={() => setVisible(false)}
-          className="text-white/40 hover:text-white/80 transition-colors text-lg leading-none"
+          className="text-muted-foreground hover:text-foreground transition-colors text-lg leading-none"
           aria-label="Dismiss"
         >
           ×
         </button>
       </div>
-
-      <style>{`
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(200%); }
-        }
-      `}</style>
     </div>
   )
 }
@@ -125,17 +110,12 @@ export function HeroSection() {
   const activeOffer = siteConfig.offers?.find((offer: any) => offer.active)
 
   return (
-    // KEY FIX: overflow-x-hidden on the section prevents blobs from causing horizontal scroll
     <section id="home" className="relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/95 to-primary/90" />
 
-      {/* Decorative blobs — constrained so they don't cause overflow on mobile */}
+      {/* Decorative blobs */}
       <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
-        {/* 
-          FIX: Changed from translate-x-1/2 / -translate-x-1/2 to inset positioning
-          so blobs stay within the section bounds and don't push the scroll width 
-        */}
         <div className="absolute -top-24 -left-24 w-72 h-72 bg-white rounded-full blur-3xl" />
         <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-secondary rounded-full blur-3xl" />
         <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-secondary/50 rounded-full blur-2xl -translate-x-1/2 -translate-y-1/2" />
@@ -150,10 +130,6 @@ export function HeroSection() {
         }}
       />
 
-      {/* 
-        KEY FIX: w-full instead of max-w-7xl mx-auto, 
-        and px-4 on mobile (was also fine before but combined with overflow issue caused clipping)
-      */}
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20 lg:py-28">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
 
@@ -217,13 +193,19 @@ export function HeroSection() {
               </Button>
             </div>
 
-            {/* Stats — 2 cols on mobile, 4 on md+ */}
+            {/* ── Stats with NumberTicker ── */}
             <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
               {stats.map((stat) => (
                 <div key={stat.label} className="text-center lg:text-left">
                   <div className="flex items-center justify-center lg:justify-start gap-1.5 mb-1">
                     <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 text-secondary shrink-0" />
-                    <span className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{stat.value}</span>
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold text-white flex items-baseline">
+                      <NumberTicker
+                        value={stat.value}
+                        className="text-xl sm:text-2xl md:text-3xl font-bold text-white tracking-tight tabular-nums"
+                      />
+                      <span className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{stat.suffix}</span>
+                    </span>
                   </div>
                   <span className="text-xs sm:text-sm text-white/70">{stat.label}</span>
                 </div>
@@ -231,7 +213,7 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* ── Right: Course cards — hidden on mobile, shown on lg ── */}
+          {/* ── Right: Course cards ── */}
           <div className="relative hidden lg:block">
             <div className="absolute -top-8 -right-8 w-72 h-72 bg-secondary/20 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-8 -left-8 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />

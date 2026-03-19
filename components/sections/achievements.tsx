@@ -12,7 +12,7 @@ const achievements = [
   },
   {
     icon: CheckCircle,
-    title: "95%+ Board Results",
+    title: "100%+ Board Results",
     description: "Students from our foundation batches have achieved 90%+ in CBSE and MP Board examinations.",
     year: "2025",
   },
@@ -52,7 +52,7 @@ const milestones = [
 const timeline = [
   { year: "2009", event: "Founded with a small batch of 30 students in Kolar, Bhopal" },
   { year: "2012", event: "Crossed 200 students · Launched home tuition service" },
-  { year: "2015", event: "Introduced Class 6–10 Foundation programme" },
+  { year: "2015", event: "Introduced Olympiad & NTSE programs · Boosting competitive preparation" },
   { year: "2018", event: "Expanded to IIT-JEE & NEET coaching batches" },
   { year: "2024", event: "1000+ students milestone · 15 years of excellence" },
   { year: "2026", event: "Continuing our journey · Growing stronger with every student we serve" },
