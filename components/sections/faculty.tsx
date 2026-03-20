@@ -15,13 +15,13 @@ const faculty = [
   {
     name: "Gaurav Mishra",
     subjects: "Mathematics",
-    qualification: "M.Tech, B.Tech",
+    qualification: "M.Tech, B.Tech, M.Sc",
     experience: "13",
     description: "Expert mathematics faculty specializing in problem-solving techniques for competitive exams with 13+ years of dedication.",
-    photoUrl: "/faculties/gaurav-mishra.png",
+    photoUrl: "/faculties/gaurav-mishra-new-1.png",
   },
   {
-    name: "Dheerendra Patel",
+    name: "Dr. Dheerendra Patel",
     subjects: "Chemistry",
     qualification: "Ph.D. (Spain)",
     experience: "20",
