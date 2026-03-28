@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { BookOpen, FlaskConical, Calculator, FileText, Download, ChevronRight, Atom, Dna } from "lucide-react"
+import { BookOpen, FlaskConical, Calculator, FileText, Download, ChevronRight, Atom, Dna, FileType2, File } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const classes = [
@@ -33,8 +33,14 @@ const classes = [
         icon: Calculator,
         files: [
           { name: "Class 10th Maths Worksheet Chapter 1", file: "/study-material/class-10/maths/class-10-maths-worksheet-ch1.pdf" },
+          { name: "Class 10th Maths Worksheet (Polynomials) Chapter 2", file: "/study-material/class-10/maths/Class 10th Maths Worksheet (Polynomials) Chapter 2.docx" },
+          { name: "Class 10th Maths Worksheet (Pair of Linear equations in two variable) Chapter 3", file: "/study-material/class-10/maths/Class 10th Maths Worksheet (Pair of Linear equations in two variable) Chapter 3.docx" },
+          { name: "Class 10th Maths Worksheet (Quadratic Equations) Chapter 4", file: "/study-material/class-10/maths/Class 10th Maths Worksheet (Quadratic Equations) Chapter 4.docx" },
+          { name: "Class 10th  maths worksheet Arithmetic Progression (Chapter 5)", file: "/study-material/class-10/maths/Class 10th  maths worksheet Arithmetic Progression (Chapter 5).docx" },
           { name: "Class 10th Trigonometry Worksheet", file: "/study-material/class-10/maths/class-10-trigonometry-worksheet.pdf" },
           { name: "Class 10th Triangle Worksheet", file: "/study-material/class-10/maths/class-10-triangle-worksheet.pdf" },
+          { name: "Class 10th Circles Worksheet", file: "/study-material/class-10/maths/Class 10th Circles Worksheet.docx" },
+          { name: "Class 10th Coordinate Geometry Worksheet", file: "/study-material/class-10/maths/Class 10th Coordinate Geometry Worksheet.docx" },
         ],
       },
       { name: "Science", icon: FlaskConical, files: [] as { name: string; file: string }[] },
@@ -87,15 +93,26 @@ export function StudyMaterialSection() {
 
   const getFileType = (filename: string) => {
     if (filename.endsWith(".pdf")) return "PDF"
-    if (filename.endsWith(".docx") || filename.endsWith(".doc")) return "Word Document"
+    if (filename.endsWith(".docx") || filename.endsWith(".doc")) return "DOCX"
     return "File"
+  }
+
+  const getFileIcon = (filename: string) => {
+    if (filename.endsWith(".pdf")) return FileText
+    if (filename.endsWith(".docx") || filename.endsWith(".doc")) return FileType2
+    return File
+  }
+
+  const getFileIconColor = (filename: string) => {
+    if (filename.endsWith(".pdf")) return "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"
+    if (filename.endsWith(".docx") || filename.endsWith(".doc")) return "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+    return "bg-primary/10 text-primary"
   }
 
   return (
     <section id="study-materials" className="py-14 md:py-24 bg-background overflow-hidden">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
           <span className="text-secondary font-semibold text-sm uppercase tracking-wider">
             Study Material
@@ -108,12 +125,10 @@ export function StudyMaterialSection() {
           </p>
         </div>
 
-        {/* Step 1 — Select Class */}
         <div className="mb-8">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
             Step 1 — Select your class
           </p>
-          {/* 3 cols on mobile so 8/9/10 fit, then 11/12 wrap; 5 cols on sm+ for one row */}
           <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 sm:gap-3">
             {classes.map((cls) => {
               const Icon = cls.icon
@@ -123,14 +138,14 @@ export function StudyMaterialSection() {
                   key={cls.id}
                   onClick={() => handleClassSelect(cls.id)}
                   className={`flex flex-col items-center gap-1.5 sm:gap-2 p-3 sm:p-4 rounded-xl border-2 transition-all duration-200 w-full ${isActive
-                      ? "border-primary bg-primary/5 shadow-sm"
-                      : "border-border bg-card hover:border-primary/40 hover:bg-muted/50"
+                    ? "border-primary bg-primary/5 shadow-sm"
+                    : "border-border bg-card hover:border-primary/40 hover:bg-muted/50"
                     }`}
                 >
                   <div
                     className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0 ${isActive
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-muted-foreground"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground"
                       }`}
                   >
                     <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -147,13 +162,11 @@ export function StudyMaterialSection() {
           </div>
         </div>
 
-        {/* Step 2 — Select Subject */}
         {activeClass && (
           <div className="mb-8 animate-in fade-in slide-in-from-top-2 duration-200">
             <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
               Step 2 — Select subject
             </p>
-            {/* 2 cols on mobile, flex-wrap row on sm+ */}
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3">
               {activeClass.subjects.map((subject) => {
                 const Icon = subject.icon
@@ -163,8 +176,8 @@ export function StudyMaterialSection() {
                     key={subject.name}
                     onClick={() => handleSubjectSelect(subject.name)}
                     className={`flex items-center justify-center sm:justify-start gap-2 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border-2 transition-all duration-200 ${isActive
-                        ? "border-primary bg-primary text-primary-foreground shadow-sm"
-                        : "border-border bg-card hover:border-primary/40 text-foreground"
+                      ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                      : "border-border bg-card hover:border-primary/40 text-foreground"
                       }`}
                   >
                     <Icon className="h-4 w-4 shrink-0" />
@@ -185,34 +198,34 @@ export function StudyMaterialSection() {
 
             {activeSubject.files.length > 0 ? (
               <div className="space-y-2.5">
-                {activeSubject.files.map((file, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start sm:items-center gap-3 p-3 sm:p-4 bg-card border rounded-xl hover:shadow-sm transition-shadow"
-                  >
-                    {/* File icon */}
-                    <div className="w-9 h-9 sm:w-10 sm:h-10 bg-primary/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
-                      <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
-                    </div>
+                {activeSubject.files.map((file, index) => {
+                  const FileIcon = getFileIcon(file.file)
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-start sm:items-center gap-3 p-3 sm:p-4 bg-card border rounded-xl hover:shadow-sm transition-shadow"
+                    >
+                      <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0 mt-0.5 sm:mt-0 ${getFileIconColor(file.file)}`}>
+                        <FileIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+                      </div>
 
-                    {/* File name — no truncation, wraps naturally */}
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-foreground leading-snug">
-                        {file.name}
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-0.5">
-                        {getFileType(file.file)} · Free Download
-                      </p>
-                    </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground leading-snug">
+                          {file.name}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {getFileType(file.file)} · Free Download
+                        </p>
+                      </div>
 
-                    {/* Download button */}
-                    <a
+                      {/* Download button */}
+                      <a
                       href={file.file}
                       download
                       target="_blank"
                       rel="noopener noreferrer"
                       className="shrink-0"
-                    >
+                      >
                       <Button
                         size="sm"
                         variant="outline"
@@ -222,43 +235,43 @@ export function StudyMaterialSection() {
                         <span className="hidden sm:inline">Download</span>
                       </Button>
                     </a>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="flex items-start sm:items-center gap-3 p-4 bg-muted/50 border border-dashed rounded-xl text-muted-foreground">
-                <FileText className="h-4 w-4 shrink-0 mt-0.5 sm:mt-0" />
-                <p className="text-sm">
-                  No files uploaded yet for {activeClass?.label} {activeSubject.name}. Check back soon!
-                </p>
-              </div>
-            )}
+                    </div>
+            )})}
           </div>
-        )}
-
-        {/* Placeholder hints */}
-        {!selectedClass && (
-          <div className="flex items-center gap-3 p-4 bg-muted/50 border border-dashed rounded-xl text-muted-foreground mt-2">
-            <ChevronRight className="h-4 w-4 shrink-0" />
-            <p className="text-sm">Select a class above to browse available study material.</p>
-          </div>
-        )}
-
-        {selectedClass && !selectedSubject && (
-          <div className="flex items-center gap-3 p-4 bg-muted/50 border border-dashed rounded-xl text-muted-foreground mt-2">
-            <ChevronRight className="h-4 w-4 shrink-0" />
-            <p className="text-sm">Now select a subject to see the available files.</p>
-          </div>
-        )}
-
-        {/* Bottom note */}
-        <div className="mt-10 text-center">
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            More materials added regularly. All files are free to download for Krishna Classes students.
+        ) : (
+        <div className="flex items-start sm:items-center gap-3 p-4 bg-muted/50 border border-dashed rounded-xl text-muted-foreground">
+          <FileText className="h-4 w-4 shrink-0 mt-0.5 sm:mt-0" />
+          <p className="text-sm">
+            No files uploaded yet for {activeClass?.label} {activeSubject.name}. Check back soon!
           </p>
         </div>
-
+            )}
       </div>
+        )}
+
+      {/* Placeholder hints */}
+      {!selectedClass && (
+        <div className="flex items-center gap-3 p-4 bg-muted/50 border border-dashed rounded-xl text-muted-foreground mt-2">
+          <ChevronRight className="h-4 w-4 shrink-0" />
+          <p className="text-sm">Select a class above to browse available study material.</p>
+        </div>
+      )}
+
+      {selectedClass && !selectedSubject && (
+        <div className="flex items-center gap-3 p-4 bg-muted/50 border border-dashed rounded-xl text-muted-foreground mt-2">
+          <ChevronRight className="h-4 w-4 shrink-0" />
+          <p className="text-sm">Now select a subject to see the available files.</p>
+        </div>
+      )}
+
+      {/* Bottom note */}
+      <div className="mt-10 text-center">
+        <p className="text-xs sm:text-sm text-muted-foreground">
+          More materials added regularly. All files are free to download for Krishna Classes students.
+        </p>
+      </div>
+
+    </div>
     </section>
   )
 }
